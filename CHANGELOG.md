@@ -1,3 +1,20 @@
+## [0.1.24] - 2026-02-21
+
+### Summary
+
+feat(docs): CLI interface improvements
+
+### Docs
+
+- docs: update QUICK_START.md
+- docs: update README
+- docs: update privacy_quick_start.md
+
+### Other
+
+- update heal/cli.py
+
+
 ## [0.1.23] - 2026-02-21
 
 ### Summary

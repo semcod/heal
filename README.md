@@ -54,6 +54,8 @@ make build 2>&1 | heal
 heal < error.log
 
 # With privacy protection (anonymize sensitive data)
+production_script.py 2>&1 | heal -a
+# or long form:
 production_script.py 2>&1 | heal --anonymize
 ```
 
@@ -91,9 +93,37 @@ Mask sensitive data **before** it leaves your machine:
 ```bash
 # Anonymize secrets, PII, tokens before sending to LLM
 production_script.py 2>&1 | heal --anonymize
+# or use the short flag:
+production_script.py 2>&1 | heal -a
 
 # Check which backends are active
 heal fix --privacy-check
+
+# Configure default anonymization (first time setup)
+heal config
+```
+
+### Privacy Flags
+
+| Flag | Description |
+|------|-------------|
+| `-a`, `--anonymize` | Force anonymization (overrides default) |
+| `--no-anonymize` | Disable anonymization (overrides default) |
+| `--privacy-check` | Show available privacy backends |
+
+### Default Behavior
+
+During first configuration (`heal config`), you'll be asked whether to enable anonymization by default. This setting can be overridden with flags:
+
+```bash
+# Uses your default setting (from config)
+heal fix
+
+# Forces anonymization regardless of default
+heal fix -a
+
+# Disables anonymization regardless of default  
+heal fix --no-anonymize
 ```
 
 | Backend | What it masks | Install |

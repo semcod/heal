@@ -94,6 +94,7 @@ def ensure_config():
     api_key = os.getenv("HEAL_API_KEY")
     model = os.getenv("HEAL_MODEL")
     base_url = os.getenv("HEAL_BASE_URL")
+    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in ("true", "1", "yes", "on")
 
     # Select provider if not configured
     if not provider:
@@ -152,6 +153,21 @@ def ensure_config():
     if provider == "openrouter" and not base_url:
         base_url = provider_info['base_url']
         set_key(ENV_PATH, "HEAL_BASE_URL", base_url)
+
+    # Ask about anonymization if not configured
+    anonymize_setting = os.getenv("HEAL_ANONYMIZE")
+    if anonymize_setting is None:
+        click.echo(f"\n🔒 Privacy Settings:\n")
+        click.echo("Would you like to enable automatic data anonymization by default?")
+        click.echo("This will mask emails, phone numbers, API keys, and other sensitive data")
+        click.echo("before sending to the LLM. You can still override with --no-anonymize flag.\n")
+        
+        if click.confirm("Enable anonymization by default?", default=True):
+            set_key(ENV_PATH, "HEAL_ANONYMIZE", "true")
+            os.environ["HEAL_ANONYMIZE"] = "true"
+        else:
+            set_key(ENV_PATH, "HEAL_ANONYMIZE", "false")
+            os.environ["HEAL_ANONYMIZE"] = "false"
 
     # Load into environment
     os.environ["HEAL_PROVIDER"] = provider
@@ -258,9 +274,10 @@ def main(ctx):
 @main.command()
 @click.option('--model', help='Override the model')
 @click.option('--api-key', help='Override the API key')
-@click.option('--anonymize', is_flag=True, help='Anonymize sensitive data before sending to LLM')
+@click.option('-a', '--anonymize', is_flag=True, help='Anonymize sensitive data before sending to LLM')
+@click.option('--no-anonymize', is_flag=True, help='Disable anonymization (overrides default setting)')
 @click.option('--privacy-check', is_flag=True, help='Check privacy masking availability')
-def fix(model, api_key, anonymize, privacy_check):
+def fix(model, api_key, anonymize, no_anonymize, privacy_check):
     """Fix shell errors using LLM."""
     # Check privacy status if requested
     if privacy_check:
@@ -289,6 +306,18 @@ def fix(model, api_key, anonymize, privacy_check):
 
     model = os.environ["HEAL_MODEL"]
     api_key = os.environ["HEAL_API_KEY"]
+    
+    # Determine anonymization setting
+    load_dotenv(ENV_PATH)
+    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in ("true", "1", "yes", "on")
+    
+    # Use explicit flags first, then default setting
+    if no_anonymize:
+        anonymize = False
+    elif anonymize:
+        anonymize = True
+    else:
+        anonymize = anonymize_default
 
     last_cmd = last_shell_command()
     error_output = read_stdin() or get_last_output()
@@ -687,18 +716,22 @@ def config():
     # Show current configuration
     current_provider = os.getenv("HEAL_PROVIDER")
     current_model = os.getenv("HEAL_MODEL")
+    current_anonymize = os.getenv("HEAL_ANONYMIZE")
     
     if current_provider and current_model:
         click.echo(f"Current settings:")
         click.echo(f"  Provider: {PROVIDERS.get(current_provider, {}).get('name', current_provider)}")
         click.echo(f"  Model: {current_model}")
+        if current_anonymize:
+            anonymize_enabled = current_anonymize.lower() in ("true", "1", "yes", "on")
+            click.echo(f"  Anonymization: {'enabled' if anonymize_enabled else 'disabled'}")
         click.echo()
         
         if not click.confirm("Do you want to reconfigure?", default=False):
             return
     
     # Clear existing configuration
-    for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL"]:
+    for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL", "HEAL_ANONYMIZE"]:
         if os.getenv(key):
             os.environ.pop(key, None)
     

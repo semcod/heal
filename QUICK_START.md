@@ -69,4 +69,9 @@ heal config       # Change settings
 heal init         # Setup bash integration
 heal-last         # Show last command
 heal-output       # Show last output
+
+# Privacy options
+heal -a           # Fix with anonymization
+heal --anonymize  # Same as above (long form)
+heal --no-anonymize  # Disable anonymization
 ```

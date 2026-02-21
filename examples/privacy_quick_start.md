@@ -32,15 +32,33 @@ Adds advanced NLP-based masking for:
 
 ### Basic Usage
 
-Add `--anonymize` flag to any heal command:
+Add privacy flags to any heal command:
 
 ```bash
-# Pipe with anonymization
+# Pipe with anonymization (short flag)
+your_command 2>&1 | heal -a
+
+# Long form (same as above)
 your_command 2>&1 | heal --anonymize
 
 # With bash integration
 your_command
-heal --anonymize
+heal -a
+
+# Disable anonymization (if enabled by default)
+heal --no-anonymize
+```
+
+### Default Settings
+
+Configure default anonymization behavior:
+
+```bash
+# First-time setup - will ask about privacy
+heal config
+
+# Check current settings
+heal config
 ```
 
 ### Check Status
@@ -163,9 +181,16 @@ python -m spacy download pl_nask-0.0.5
 # Check status
 heal fix --privacy-check
 
-# Use anonymization
+# Use anonymization (short and long forms)
+heal -a
 heal --anonymize
 
-# Create alias
-alias healp='heal --anonymize'
+# Disable anonymization
+heal --no-anonymize
+
+# Configure default behavior
+heal config
+
+# Create alias for quick access
+alias healp='heal -a'
 ```
