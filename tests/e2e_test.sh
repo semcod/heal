@@ -101,7 +101,7 @@ echo "▸ Secret masking via Python"
 OUTPUT=$(python -c "
 from heal.privacy import PrivacyMasker
 m = PrivacyMasker()
-print(m.anonymize('api_key=sk_live_abc123def456ghi789jkl012mno345'))
+print(m.anonymize('api_key=sk_test_fake_key_1234567890abcdef'))
 ")
 if echo "$OUTPUT" | grep -q "\[SECRET\]"; then
     pass "API key secret masked"

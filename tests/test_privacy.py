@@ -173,7 +173,7 @@ class TestSecretMasking:
 
     def test_generic_api_key(self):
         masker = PrivacyMasker()
-        result = masker.anonymize("api_key=sk_live_abc123def456ghi789jkl012mno345")
+        result = masker.anonymize("api_key=sk_test_fake_key_1234567890abcdef")
         assert "[SECRET]" in result
 
     def test_password_in_env(self):
@@ -236,11 +236,11 @@ fatal: Authentication failed for 'https://ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     def test_env_file_leak(self):
         masker = PrivacyMasker()
         text = """Error loading .env:
-API_KEY=sk_live_abcdef1234567890abcdef12
+API_KEY=sk_test_fake_key_abcdef1234567890abcdef12
 DATABASE_URL=postgresql://admin:supersecret@db.prod.com:5432/app
 SMTP_PASSWORD=mysecretpassword123"""
         result = masker.anonymize(text)
-        assert "sk_live_abcdef" not in result
+        assert "sk_test_fake_key" not in result
         assert "supersecret" not in result
         assert "mysecretpassword123" not in result
 
@@ -278,10 +278,10 @@ class TestSelectiveMasking:
 
     def test_disable_secrets(self):
         masker = PrivacyMasker()
-        text = "api_key=sk_live_abc123def456ghi789jkl012mno345 email: a@b.com"
+        text = "api_key=sk_test_fake_key_1234567890abcdef email: a@b.com"
         result = masker.anonymize(text, mask_secrets=False)
         # Secret should remain but email should be masked
-        assert "sk_live_abc123" in result
+        assert "sk_test_fake_key" in result
         assert "a@b.com" not in result
 
     def test_disable_all_pii(self):

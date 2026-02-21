@@ -1,3 +1,16 @@
+## [0.1.23] - 2026-02-21
+
+### Summary
+
+refactor(tests): test module improvements
+
+### Test
+
+- scripts: update e2e_test.sh
+- update tests/test_main.py
+- update tests/test_privacy.py
+
+
 ## [0.1.22] - 2026-02-21
 
 ### Summary
