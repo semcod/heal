@@ -144,23 +144,23 @@ Shell output
 
 ```bash
 # Minimal (built-in regex only, always works)
-pip install fixi
+pip install heal
 
 # + Secret scanning
-pip install fixi detect-secrets
+pip install heal detect-secrets
 
 # + PII detection (English/multilingual)
-pip install fixi presidio-analyzer
+pip install heal presidio-analyzer
 
 # + Polish NLP
-pip install fixi priv-masker spacy
+pip install heal priv-masker spacy
 python -m spacy download pl_nask-0.0.5
 
 # + Fake data generation
-pip install fixi faker
+pip install heal faker
 
 # Everything
-pip install fixi[privacy]
+pip install heal[privacy]
 ```
 
 ## Choosing the Right Setup

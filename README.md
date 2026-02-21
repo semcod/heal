@@ -1,7 +1,7 @@
 # Heal 🩺
 
-[![PyPI version](https://img.shields.io/pypi/v/fixi.svg)](https://pypi.org/project/fixi/)
-[![Python versions](https://img.shields.io/pypi/pyversions/fixi.svg)](https://pypi.org/project/fixi/)
+[![PyPI version](https://img.shields.io/pypi/v/heal.svg)](https://pypi.org/project/heal/)
+[![Python versions](https://img.shields.io/pypi/pyversions/heal.svg)](https://pypi.org/project/heal/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tests](https://img.shields.io/badge/tests-71%20passed-brightgreen.svg)](#testing)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](#docker-testing)
@@ -12,10 +12,10 @@
 ## Installation
 
 ```bash
-pip install fixi
+pip install heal
 
 # With full privacy protection (detect-secrets, presidio, faker, etc.)
-pip install fixi[privacy]
+pip install heal[privacy]
 ```
 
 ## Quick Start
@@ -105,7 +105,7 @@ heal fix --privacy-check
 | **datafog** | Lightweight PII | `pip install datafog` |
 | **faker** | Generate realistic fake replacements | `pip install faker` |
 
-> Install all at once: `pip install fixi[privacy]`
+> Install all at once: `pip install heal[privacy]`
 
 ## 📚 Documentation
 
@@ -496,7 +496,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Links
 
-- **PyPI:** [pypi.org/project/fixi](https://pypi.org/project/fixi/)
+- **PyPI:** [pypi.org/project/heal](https://pypi.org/project/heal/)
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - **TODO:** [TODO.md](TODO.md)
 - **Comparisons:** [comparisons/](comparisons/README.md)

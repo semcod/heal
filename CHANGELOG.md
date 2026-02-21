@@ -1,3 +1,16 @@
+## [0.1.22] - 2026-02-21
+
+### Summary
+
+docs(docs): CLI interface improvements
+
+### Docs
+
+- docs: update README
+- docs: update llm_cli_tools.md
+- docs: update privacy_libraries.md
+
+
 ## [0.1.21] - 2026-02-21
 
 ### Summary

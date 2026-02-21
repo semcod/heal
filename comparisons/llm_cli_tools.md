@@ -108,7 +108,7 @@ kubectl apply -f deployment.yaml 2>&1 | heal --anonymize
 
 | Tool | Install | Size | Language |
 |------|---------|------|----------|
-| heal | `pip install fixi` | ~5 MB | Python |
+| heal | `pip install heal` | ~5 MB | Python |
 | aichat | `cargo install aichat` | ~10 MB | Rust |
 | sgpt | `pip install shell-gpt` | ~5 MB | Python |
 | llm | `pip install llm` | ~5 MB | Python |
