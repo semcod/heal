@@ -1,3 +1,35 @@
+## [0.1.21] - 2026-02-21
+
+### Summary
+
+fix(docs): CLI interface improvements
+
+### Docs
+
+- docs: update README
+- docs: update TODO.md
+- docs: update README
+- docs: update llm_cli_tools.md
+- docs: update privacy_libraries.md
+- docs: update shell_error_fixers.md
+
+### Test
+
+- scripts: update e2e_test.sh
+- update tests/test_main.py
+- update tests/test_privacy.py
+
+### Build
+
+- update pyproject.toml
+
+### Other
+
+- update Dockerfile.e2e
+- update heal/cli.py
+- update heal/privacy.py
+
+
 ## [0.1.20] - 2026-02-21
 
 ### Summary
@@ -71,28 +103,34 @@ fix(docs): CLI interface improvements
 
 ### Added
 
-- **Privacy protection** - `--anonymize` flag to mask sensitive data before sending to LLM
-  - Email addresses, phone numbers, ID numbers (basic regex masking)
-  - Personal names, addresses, dates (advanced with priv-masker)
-  - Optional dependency: `pip install heal[privacy]`
-- **Privacy status check** - `heal fix --privacy-check` to verify masking availability
-- **Privacy module** - `heal/privacy.py` with PrivacyMasker class
-- **Fallback masking** - Basic regex-based masking when priv-masker not available
-- **Interactive reconfiguration menu** - `heal test` now offers specific options when errors occur:
-  - Change provider and API key
-  - Just update API key (keep current provider)
-  - Try a different model (keep provider and key)
-- **Step-by-step problem diagnosis** - asks what you want to fix instead of guessing
-- **Smart configuration clearing** - properly removes .env file for full reconfiguration
+- **Multi-backend privacy module** — 6 anonymization backends:
+  - `builtin_regex` — emails, phones, IPs, API keys, JWT, PEM, SSH keys, DB passwords, SSN (always available)
+  - `detect-secrets` — high-entropy strings, cloud keys (Yelp)
+  - `presidio-analyzer` — NLP-based PII detection, multilingual (Microsoft)
+  - `priv-masker` — Polish NLP anonymization (PESEL, names, addresses)
+  - `datafog` — lightweight PII detection
+  - `faker` — realistic fake data replacement
+- **`--anonymize` flag** on `heal fix` to mask sensitive data before sending to LLM
+- **`--privacy-check` flag** to show all backend availability
+- **57 privacy test cases** — emails, phones, IDs, secrets, IPs, PEM keys, JWT, DB connections, edge cases
+- **Docker environment** for e2e testing (`Dockerfile`, `Dockerfile.e2e`, `docker-compose.yml`)
+- **E2e bash test script** (`tests/e2e_test.sh`) — CLI, privacy, piping tests
+- **Comparisons directory** — heal vs thefuck, shellcheck, aichat, sgpt, privacy libs
+- **Interactive reconfiguration menu** — `heal test` offers specific options on errors
+- **Step-by-step problem diagnosis** on configuration errors
 
 ### Changed
 
-- **Improved error recovery flow** - more granular options for fixing configuration issues
-- **Better user guidance** - clear prompts for each reconfiguration option
+- **Privacy module rewritten** from single-backend to multi-backend architecture
+- **Improved error recovery flow** — more granular options for fixing configuration issues
+- **README** — added badges, documentation menu, privacy table, Docker section, comparisons links
+- **TODO.md** — updated with completed items, added Privacy & Security section
 
 ### Documentation
 
-- Added privacy protection guide with examples
+- Added privacy libraries comparison (detect-secrets, presidio, priv-masker, datafog, faker)
+- Added shell error fixers comparison (heal vs thefuck, shellcheck, explainshell)
+- Added LLM CLI tools comparison (heal vs aichat, sgpt, llm)
 - Added GDPR/RODO compliance information
 - Added security considerations for sensitive data
 

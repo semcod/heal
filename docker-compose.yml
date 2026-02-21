@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  # Unit tests (fast)
+  unit-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m pytest tests/ -v --tb=short
+    volumes:
+      - .:/app
+
+  # Privacy-specific tests
+  privacy-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m pytest tests/test_privacy.py -v --tb=short
+    volumes:
+      - .:/app
+
+  # End-to-end tests (CLI + shell integration)
+  e2e-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    environment:
+      - HEAL_PROVIDER=openrouter
+      - HEAL_MODEL=openai/gpt-4o-mini
+      # Set HEAL_API_KEY via: docker compose run -e HEAL_API_KEY=xxx e2e-tests
+    volumes:
+      - .:/app
+
+  # Full privacy suite (with all backends installed)
+  privacy-full:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c "
+        pip install --no-cache-dir faker detect-secrets 2>/dev/null &&
+        python -m pytest tests/test_privacy.py -v --tb=short
+      "
+    volumes:
+      - .:/app

@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash git && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY . .
+
+# Install with ALL privacy backends (except heavy ones like presidio/spacy)
+RUN pip install --no-cache-dir -e ".[dev]" && \
+    pip install --no-cache-dir faker detect-secrets || true
+
+# Copy e2e test script
+COPY tests/e2e_test.sh /app/tests/e2e_test.sh
+RUN chmod +x /app/tests/e2e_test.sh
+
+CMD ["bash", "/app/tests/e2e_test.sh"]

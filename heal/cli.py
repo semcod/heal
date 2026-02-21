@@ -267,11 +267,17 @@ def fix(model, api_key, anonymize, privacy_check):
         from .privacy import get_privacy_status
         status = get_privacy_status()
         click.echo("\n🔒 Privacy Masking Status\n")
-        click.echo(f"Available: {'✓' if status['available'] else '✗'}")
-        click.echo(f"priv-masker installed: {'✓' if status['priv_masker_installed'] else '✗'}")
-        click.echo(f"SpaCy model loaded: {'✓' if status['model_loaded'] else '✗'}")
+        click.echo(f"Active backends: {', '.join(status['backends'])}\n")
+        click.echo("Backend availability:")
+        click.echo(f"  {'✓' if True else '✗'} builtin_regex       (always available)")
+        click.echo(f"  {'✓' if status['detect_secrets_installed'] else '✗'} detect-secrets      API keys, tokens, private keys")
+        click.echo(f"  {'✓' if status['presidio_installed'] else '✗'} presidio-analyzer   Microsoft PII detection")
+        click.echo(f"  {'✓' if status['priv_masker_installed'] else '✗'} priv-masker         Polish NLP masking")
+        click.echo(f"  {'✓' if status['datafog_installed'] else '✗'} datafog             Lightweight PII detection")
+        click.echo(f"  {'✓' if status['faker_installed'] else '✗'} faker               Fake data generation")
         if status['install_instructions']:
             click.echo(f"\n{status['install_instructions']}")
+        click.echo()
         return
     
     ensure_config()

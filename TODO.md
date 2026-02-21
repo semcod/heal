@@ -4,7 +4,7 @@
 
 - [ ] Add support for reading from clipboard (for GUI terminal users)
 - [ ] Implement `heal history` command to show past fixes and solutions
-- [ ] Add `heal config` command to manage configuration interactively
+- [x] Add `heal config` command to manage configuration interactively
 - [ ] Create shell completion scripts (bash, zsh, fish)
 - [ ] Add support for custom prompts/templates
 
@@ -12,11 +12,25 @@
 
 - [ ] Add `heal explain` command for explaining errors without fixing
 - [ ] Implement `heal suggest` for proactive suggestions based on command
-- [ ] Add support for multiple LLM providers configuration
+- [x] Add support for multiple LLM providers configuration
 - [ ] Create `heal learn` to save successful fixes for future reference
 - [ ] Add `heal stats` to show usage statistics
 - [ ] Implement rate limiting and caching for API calls
 - [ ] Add support for local LLM models (ollama, llama.cpp)
+
+## Privacy & Security
+
+- [x] Built-in regex masking (emails, phones, IPs, API keys, JWT, PEM, DB passwords)
+- [x] detect-secrets integration (high-entropy strings, cloud keys)
+- [x] presidio-analyzer integration (NLP-based PII)
+- [x] priv-masker integration (Polish NLP)
+- [x] datafog integration (lightweight PII)
+- [x] faker integration (fake data replacement)
+- [ ] Add `--anonymize` as default behavior (opt-out instead of opt-in)
+- [ ] Custom regex patterns from user config
+- [ ] Implement secure API key storage (keyring integration)
+- [ ] Implement audit logging
+- [ ] Create security policy document
 
 ## Improvements
 
@@ -31,14 +45,19 @@
 ## Documentation
 
 - [ ] Create video tutorial/demo
-- [ ] Add troubleshooting guide
+- [x] Add troubleshooting guide
 - [ ] Create FAQ section
 - [ ] Add contributing guidelines
 - [ ] Create architecture documentation
-- [ ] Add security best practices guide
+- [x] Add security best practices guide
+- [x] Comparisons with competitors (thefuck, shellcheck, aichat, sgpt)
+- [x] Privacy libraries comparison (detect-secrets, presidio, etc.)
 
 ## Testing
 
+- [x] Privacy module tests (57 test cases)
+- [x] Docker environment for e2e tests
+- [x] E2e bash test script
 - [ ] Add integration tests for different error scenarios
 - [ ] Create mock LLM responses for testing
 - [ ] Add performance benchmarks
@@ -50,7 +69,8 @@
 - [ ] Set up automated releases
 - [ ] Add code coverage reporting
 - [ ] Implement semantic versioning automation
-- [ ] Create Docker image for testing
+- [x] Create Docker image for testing
+- [x] Create docker-compose.yml for test suites
 - [ ] Add pre-commit hooks
 
 ## Community
@@ -60,14 +80,6 @@
 - [ ] Create pull request template
 - [ ] Add code of conduct
 - [ ] Create roadmap document
-
-## Security
-
-- [ ] Implement secure API key storage (keyring integration)
-- [ ] Add option to exclude sensitive data from prompts
-- [ ] Implement audit logging
-- [ ] Add privacy mode (no data sent to LLM)
-- [ ] Create security policy document
 
 ## Performance
 

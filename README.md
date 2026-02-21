@@ -1,11 +1,21 @@
 # Heal 🩺
 
-**LLM-powered shell error fixing** - Your AI assistant for debugging and fixing command-line errors instantly.
+[![PyPI version](https://img.shields.io/pypi/v/fixi.svg)](https://pypi.org/project/fixi/)
+[![Python versions](https://img.shields.io/pypi/pyversions/fixi.svg)](https://pypi.org/project/fixi/)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Tests](https://img.shields.io/badge/tests-71%20passed-brightgreen.svg)](#testing)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](#docker-testing)
+[![Privacy](https://img.shields.io/badge/privacy-6%20backends-purple.svg)](#privacy-protection)
+
+**LLM-powered shell error fixing** — Your AI assistant for debugging and fixing command-line errors instantly, with built-in privacy protection.
 
 ## Installation
 
 ```bash
-pip install heal
+pip install fixi
+
+# With full privacy protection (detect-secrets, presidio, faker, etc.)
+pip install fixi[privacy]
 ```
 
 ## Quick Start
@@ -70,8 +80,62 @@ heal
 - 🔄 **Automatic command capture** - Shell hook captures last command and output
 - 📥 **Multiple input methods** - Works with stdin, files, or shell hooks
 - ⚙️ **Configurable models** - Support for various LLM providers via litellm
-- 🔒 **Privacy protection** - Anonymize sensitive data before sending to LLM (optional)
+- 🔒 **Privacy protection** - 6 anonymization backends (regex, detect-secrets, presidio, priv-masker, datafog, faker)
+- 🐳 **Docker-ready** - Full e2e test suite in Docker
 - 🚀 **Zero-config start** - Just run `heal` after any error
+
+## Privacy Protection
+
+Mask sensitive data **before** it leaves your machine:
+
+```bash
+# Anonymize secrets, PII, tokens before sending to LLM
+production_script.py 2>&1 | heal --anonymize
+
+# Check which backends are active
+heal fix --privacy-check
+```
+
+| Backend | What it masks | Install |
+|---------|---------------|---------|
+| **builtin_regex** | Emails, phones, IPs, API keys, JWT, PEM, DB passwords | included |
+| **detect-secrets** | High-entropy strings, cloud keys | `pip install detect-secrets` |
+| **presidio** | Names, addresses, dates (NLP, multilingual) | `pip install presidio-analyzer` |
+| **priv-masker** | Polish NLP (PESEL, names, addresses) | `pip install priv-masker spacy` |
+| **datafog** | Lightweight PII | `pip install datafog` |
+| **faker** | Generate realistic fake replacements | `pip install faker` |
+
+> Install all at once: `pip install fixi[privacy]`
+
+## 📚 Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [Quick Start](QUICK_START.md) | Get running in 5 minutes |
+| [Getting Started](examples/getting_started.md) | Full setup walkthrough |
+| [Configuration Guide](examples/configuration_guide.md) | Provider & model setup |
+| [Multi-Provider Usage](examples/multi_provider_usage.md) | Switch between LLM providers |
+| [Privacy Protection](examples/privacy_protection.md) | Anonymization deep-dive |
+| [Privacy Quick Start](examples/privacy_quick_start.md) | Privacy in 2 minutes |
+| [Error Recovery](examples/error_recovery.md) | Interactive error fixing |
+| [Troubleshooting](examples/troubleshooting.md) | Common issues & solutions |
+
+### Examples
+
+| Category | Guide |
+|----------|-------|
+| [Python Errors](examples/python_errors.md) | ModuleNotFoundError, ImportError, venv issues |
+| [Docker Errors](examples/docker_errors.md) | Build failures, port conflicts, volumes |
+| [Node.js Errors](examples/nodejs_errors.md) | npm, webpack, module resolution |
+| [Git Errors](examples/git_errors.md) | Merge conflicts, auth, rebase |
+
+### Comparisons
+
+| Comparison | What's compared |
+|------------|-----------------|
+| [Privacy Libraries](comparisons/privacy_libraries.md) | detect-secrets vs presidio vs priv-masker vs datafog vs faker |
+| [Shell Error Fixers](comparisons/shell_error_fixers.md) | heal vs thefuck vs shellcheck vs explainshell |
+| [LLM CLI Tools](comparisons/llm_cli_tools.md) | heal vs aichat vs sgpt vs llm |
 
 ## Usage Examples
 
@@ -356,34 +420,67 @@ HEAL_BASE_URL=https://openrouter.ai/api/v1
 
 Configuration is stored in `~/.heal/.env`.
 
-## Development
+## Testing
 
-This package uses modern Python packaging with `pyproject.toml`.
-
-### Install in development mode
+### Unit tests
 
 ```bash
-pip install -e .
+pip install -e ".[dev]"
+python -m pytest -v
 ```
 
-### Run tests
+### Privacy tests (57 test cases)
 
 ```bash
-python -m pytest
+python -m pytest tests/test_privacy.py -v
+```
+
+### Docker Testing
+
+```bash
+# All unit tests
+docker compose run unit-tests
+
+# Privacy tests only
+docker compose run privacy-tests
+
+# End-to-end CLI tests
+docker compose run e2e-tests
+
+# Full privacy suite with all backends
+docker compose run privacy-full
+```
+
+## Development
+
+```bash
+# Install in development mode
+pip install -e ".[dev]"
+
+# Run all tests
+python -m pytest -v
+
+# Run with coverage
+python -m pytest --cov=heal -v
 ```
 
 ## How it works
 
-1. **Command capture**: Gets last command from bash history or shell hook
-2. **Error collection**: Reads error output from stdin or captured file
-3. **LLM analysis**: Sends command and error to LLM for analysis
-4. **Solution proposal**: Returns concrete fix suggestions
+```
+Command fails → heal captures output → anonymizes (optional) → LLM analyzes → suggests fix
+```
+
+1. **Command capture** — Gets last command from bash hook buffer or history
+2. **Error collection** — Reads error output from stdin or captured file
+3. **Privacy masking** — Optionally anonymizes sensitive data (6 backends)
+4. **LLM analysis** — Sends sanitized command + error to LLM for analysis
+5. **Solution proposal** — Returns concrete fix suggestions
 
 ## Limitations
 
 - Shell processes cannot access previous process stderr without pipes
 - Shell hook required for fully automatic operation
-- Requires API key for LLM service
+- Requires API key for LLM service (free-tier models available)
 
 ## License
 
@@ -396,3 +493,10 @@ Created by **Tom Sapletta** - [tom@sapletta.com](mailto:tom@sapletta.com)
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Links
+
+- **PyPI:** [pypi.org/project/fixi](https://pypi.org/project/fixi/)
+- **Changelog:** [CHANGELOG.md](CHANGELOG.md)
+- **TODO:** [TODO.md](TODO.md)
+- **Comparisons:** [comparisons/](comparisons/README.md)
