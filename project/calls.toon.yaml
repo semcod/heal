@@ -1,0 +1,37 @@
+# code2llm call graph | /home/tom/github/semcod/heal
+# nodes: 7 | edges: 6 | modules: 1
+# CC̄=5.4
+
+HUBS[20]:
+  heal.cli.test
+    CC=24  in:0  out:141  total:141
+  heal.cli.ensure_config
+    CC=14  in:3  out:52  total:55
+  heal.cli.fix
+    CC=18  in:0  out:39  total:39
+  heal.cli.config
+    CC=9  in:0  out:23  total:23
+  heal.cli.call_llm
+    CC=8  in:2  out:4  total:6
+  heal.cli.last_shell_command
+    CC=4  in:1  out:5  total:6
+  heal.cli.get_litellm_model_name
+    CC=3  in:2  out:3  total:5
+
+MODULES:
+  heal.cli  [7 funcs]
+    call_llm  CC=8  out:4
+    config  CC=9  out:23
+    ensure_config  CC=14  out:52
+    fix  CC=18  out:39
+    get_litellm_model_name  CC=3  out:3
+    last_shell_command  CC=4  out:5
+    test  CC=24  out:141
+
+EDGES:
+  heal.cli.call_llm → heal.cli.get_litellm_model_name
+  heal.cli.fix → heal.cli.ensure_config
+  heal.cli.fix → heal.cli.last_shell_command
+  heal.cli.fix → heal.cli.call_llm
+  heal.cli.test → heal.cli.get_litellm_model_name
+  heal.cli.config → heal.cli.ensure_config

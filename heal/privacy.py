@@ -30,6 +30,7 @@ PRIV_MASKER_AVAILABLE = False
 try:
     import spacy
     from priv_masker import add_pipeline, analyse_text
+
     PRIV_MASKER_AVAILABLE = True
 except ImportError:
     pass
@@ -38,6 +39,7 @@ DETECT_SECRETS_AVAILABLE = False
 try:
     from detect_secrets import main as ds_main  # noqa: F401
     from detect_secrets.settings import default_settings
+
     DETECT_SECRETS_AVAILABLE = True
 except ImportError:
     pass
@@ -45,6 +47,7 @@ except ImportError:
 PRESIDIO_AVAILABLE = False
 try:
     from presidio_analyzer import AnalyzerEngine
+
     PRESIDIO_AVAILABLE = True
 except ImportError:
     pass
@@ -52,6 +55,7 @@ except ImportError:
 DATAFOG_AVAILABLE = False
 try:
     import datafog  # noqa: F401
+
     DATAFOG_AVAILABLE = True
 except ImportError:
     pass
@@ -59,6 +63,7 @@ except ImportError:
 FAKER_AVAILABLE = False
 try:
     from faker import Faker
+
     FAKER_AVAILABLE = True
 except ImportError:
     pass
@@ -71,39 +76,51 @@ except ImportError:
 # Secrets / credentials
 _SECRET_PATTERNS = [
     # AWS keys
-    (r'(?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16}', '[AWS_KEY]'),
+    (r"(?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16}", "[AWS_KEY]"),
     # GitHub tokens
-    (r'gh[pousr]_[A-Za-z0-9_]{36,255}', '[GITHUB_TOKEN]'),
+    (r"gh[pousr]_[A-Za-z0-9_]{36,255}", "[GITHUB_TOKEN]"),
     # Generic API keys / passwords (preceded by key-like words, 12+ chars)
-    (r'(?i)(?:api[_-]?key|apikey|secret[_-]?key|token|password|passwd|auth[_-]?token|auth)\s*[:=]\s*["\']?([A-Za-z0-9_\-\.!@#$%^&*]{12,})["\']?', '[SECRET]'),
+    (
+        r'(?i)(?:api[_-]?key|apikey|secret[_-]?key|token|password|passwd|auth[_-]?token|auth)\s*[:=]\s*["\']?([A-Za-z0-9_\-\.!@#$%^&*]{12,})["\']?',
+        "[SECRET]",
+    ),
     # Bearer tokens
-    (r'Bearer\s+[A-Za-z0-9_\-\.]+', '[BEARER_TOKEN]'),
+    (r"Bearer\s+[A-Za-z0-9_\-\.]+", "[BEARER_TOKEN]"),
     # Private keys (PEM)
-    (r'-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----', '[PRIVATE_KEY]'),
+    (
+        r"-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+        "[PRIVATE_KEY]",
+    ),
     # JWT tokens
-    (r'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}', '[JWT_TOKEN]'),
+    (
+        r"eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}",
+        "[JWT_TOKEN]",
+    ),
     # SSH keys in authorized_keys format
-    (r'ssh-(?:rsa|ed25519|ecdsa)\s+[A-Za-z0-9+/=]{40,}', '[SSH_KEY]'),
+    (r"ssh-(?:rsa|ed25519|ecdsa)\s+[A-Za-z0-9+/=]{40,}", "[SSH_KEY]"),
     # Connection strings with passwords
-    (r'(?i)((?:postgresql|mysql|mongodb|redis|amqp)://[^:]+:)([^@]+)(@)', r'\1[DB_PASSWORD]\3'),
+    (
+        r"(?i)((?:postgresql|mysql|mongodb|redis|amqp)://[^:]+:)([^@]+)(@)",
+        r"\1[DB_PASSWORD]\3",
+    ),
 ]
 
 # PII patterns
 _PII_PATTERNS = [
     # Emails
-    (r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[EMAIL]'),
+    (r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "[EMAIL]"),
     # Phone numbers (PL)
-    (r'\b(?:\+?48)?[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{3}\b', '[PHONE]'),
+    (r"\b(?:\+?48)?[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{3}\b", "[PHONE]"),
     # Phone numbers (US/intl)
-    (r'\b\d{3}[-\s]?\d{3}[-\s]?\d{4}\b', '[PHONE]'),
+    (r"\b\d{3}[-\s]?\d{3}[-\s]?\d{4}\b", "[PHONE]"),
     # IP addresses (v4)
-    (r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', '[IP_ADDRESS]'),
+    (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", "[IP_ADDRESS]"),
     # PESEL (Polish national ID, 11 digits)
-    (r'\b\d{11}\b', '[ID_NUMBER]'),
+    (r"\b\d{11}\b", "[ID_NUMBER]"),
     # Credit card numbers
-    (r'\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b', '[CARD_NUMBER]'),
+    (r"\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b", "[CARD_NUMBER]"),
     # SSN (US)
-    (r'\b\d{3}-\d{2}-\d{4}\b', '[SSN]'),
+    (r"\b\d{3}-\d{2}-\d{4}\b", "[SSN]"),
 ]
 
 
@@ -172,14 +189,20 @@ class PrivacyMasker:
         """Return install hints for missing backends."""
         lines = []
         if not DETECT_SECRETS_AVAILABLE:
-            lines.append("  pip install detect-secrets        # API keys, tokens, private keys")
+            lines.append(
+                "  pip install detect-secrets        # API keys, tokens, private keys"
+            )
         if not PRESIDIO_AVAILABLE:
-            lines.append("  pip install presidio-analyzer     # Microsoft PII detection")
+            lines.append(
+                "  pip install presidio-analyzer     # Microsoft PII detection"
+            )
         if not PRIV_MASKER_AVAILABLE:
             lines.append("  pip install priv-masker spacy     # Polish NLP masking")
             lines.append("  python -m spacy download pl_nask-0.0.5")
         if not DATAFOG_AVAILABLE:
-            lines.append("  pip install datafog               # Lightweight PII detection")
+            lines.append(
+                "  pip install datafog               # Lightweight PII detection"
+            )
         if not FAKER_AVAILABLE:
             lines.append("  pip install faker                 # Fake data generation")
         if not lines:
@@ -257,9 +280,13 @@ class PrivacyMasker:
         """Mask PII using built-in regex patterns."""
         result = text
         for pattern, replacement in _PII_PATTERNS:
-            if not mask_contacts and replacement in ('[EMAIL]', '[PHONE]'):
+            if not mask_contacts and replacement in ("[EMAIL]", "[PHONE]"):
                 continue
-            if not mask_ids and replacement in ('[ID_NUMBER]', '[CARD_NUMBER]', '[SSN]'):
+            if not mask_ids and replacement in (
+                "[ID_NUMBER]",
+                "[CARD_NUMBER]",
+                "[SSN]",
+            ):
                 continue
             result = re.sub(pattern, replacement, result)
         return result
@@ -274,11 +301,12 @@ class PrivacyMasker:
         if not DETECT_SECRETS_AVAILABLE:
             return text
         try:
-            tmp = tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False)
+            tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False)
             tmp.write(text)
             tmp.close()
 
             from detect_secrets.core.scan import scan_file
+
             with default_settings():
                 secrets = scan_file(tmp.name)
 
@@ -289,11 +317,13 @@ class PrivacyMasker:
                 if 0 <= line_num < len(lines) and line_num not in masked_lines:
                     raw = secret.secret_value or ""
                     if raw and raw in lines[line_num]:
-                        lines[line_num] = lines[line_num].replace(raw, '[DETECTED_SECRET]')
+                        lines[line_num] = lines[line_num].replace(
+                            raw, "[DETECTED_SECRET]"
+                        )
                     masked_lines.add(line_num)
 
             os.unlink(tmp.name)
-            return ''.join(lines)
+            return "".join(lines)
         except Exception:
             return text
 
@@ -308,15 +338,15 @@ class PrivacyMasker:
         try:
             results = self._presidio_engine.analyze(
                 text=text,
-                language='en',
+                language="en",
                 score_threshold=0.5,
             )
             # Sort by start descending so replacements don't shift indices
             results = sorted(results, key=lambda r: r.start, reverse=True)
             result = text
             for r in results:
-                tag = f'[{r.entity_type}]'
-                result = result[:r.start] + tag + result[r.end:]
+                tag = f"[{r.entity_type}]"
+                result = result[: r.start] + tag + result[r.end :]
             return result
         except Exception:
             return text
@@ -331,12 +361,12 @@ class PrivacyMasker:
             return text
         try:
             masked_components = {
-                'persname_mask': mask_options.get('mask_names', True),
-                'date_mask': mask_options.get('mask_dates', True),
-                'contact_mask': mask_options.get('mask_contacts', True),
-                'address_mask': mask_options.get('mask_addresses', True),
-                'id_numbers_mask': mask_options.get('mask_ids', True),
-                'amount_mask': mask_options.get('mask_amounts', False),
+                "persname_mask": mask_options.get("mask_names", True),
+                "date_mask": mask_options.get("mask_dates", True),
+                "contact_mask": mask_options.get("mask_contacts", True),
+                "address_mask": mask_options.get("mask_addresses", True),
+                "id_numbers_mask": mask_options.get("mask_ids", True),
+                "amount_mask": mask_options.get("mask_amounts", False),
             }
             doc = self.nlp(text)
             return analyse_text(doc, masked_components)
@@ -347,6 +377,7 @@ class PrivacyMasker:
 # ---------------------------------------------------------------------------
 # Module-level convenience functions
 # ---------------------------------------------------------------------------
+
 
 def anonymize_shell_output(
     output: str,
@@ -374,12 +405,12 @@ def get_privacy_status() -> Dict[str, Any]:
     masker = PrivacyMasker()
     backends = masker.available_backends()
     return {
-        'available': True,
-        'backends': backends,
-        'detect_secrets_installed': DETECT_SECRETS_AVAILABLE,
-        'presidio_installed': PRESIDIO_AVAILABLE,
-        'priv_masker_installed': PRIV_MASKER_AVAILABLE,
-        'datafog_installed': DATAFOG_AVAILABLE,
-        'faker_installed': FAKER_AVAILABLE,
-        'install_instructions': masker.get_install_instructions() or None,
+        "available": True,
+        "backends": backends,
+        "detect_secrets_installed": DETECT_SECRETS_AVAILABLE,
+        "presidio_installed": PRESIDIO_AVAILABLE,
+        "priv_masker_installed": PRIV_MASKER_AVAILABLE,
+        "datafog_installed": DATAFOG_AVAILABLE,
+        "faker_installed": FAKER_AVAILABLE,
+        "install_instructions": masker.get_install_instructions() or None,
     }

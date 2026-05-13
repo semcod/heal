@@ -2,8 +2,6 @@
 
 This document shows real-world Python errors and how `heal` helps fix them.
 
-## Example 1: ModuleNotFoundError
-
 ### Error
 ```bash
 $ python app.py
@@ -40,8 +38,6 @@ The error indicates that the Flask module is not installed in your Python enviro
    pip install -r requirements.txt
    ```
 ```
-
-## Example 2: Import Error - Circular Import
 
 ### Error
 ```bash
@@ -84,8 +80,6 @@ and `models.py` tries to import from `main.py`, creating a circular dependency.
 3. Or use lazy imports by moving the import inside a function.
 ```
 
-## Example 3: IndentationError
-
 ### Error
 ```bash
 $ python script.py
@@ -117,8 +111,6 @@ Python detected an unexpected indentation on line 8. This usually happens when:
    black script.py
    ```
 ```
-
-## Example 4: Virtual Environment Not Activated
 
 ### Error
 ```bash
@@ -160,8 +152,6 @@ virtual environment where Django is installed.
    ```
 ```
 
-## Example 5: Permission Error
-
 ### Error
 ```bash
 $ python setup.py install
@@ -201,8 +191,6 @@ You're trying to install a package to a system directory without proper permissi
    pip install .
    ```
 ```
-
-## Example 6: Syntax Error
 
 ### Error
 ```bash

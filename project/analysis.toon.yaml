@@ -1,0 +1,39 @@
+# code2llm | 6f 1261L | python:5,shell:1 | 2026-04-19
+# CC̄=5.4 | critical:2/30 | dups:0 | cycles:0
+
+HEALTH[2]:
+  🟡 CC    fix CC=18 (limit:15)
+  🟡 CC    test CC=24 (limit:15)
+
+REFACTOR[1]:
+  1. split 2 high-CC methods  (CC>15)
+
+PIPELINES[16]:
+  [1] Src [__init__]: __init__
+      PURITY: 100% pure
+  [2] Src [available_backends]: available_backends
+      PURITY: 100% pure
+  [3] Src [get_install_instructions]: get_install_instructions
+      PURITY: 100% pure
+  [4] Src [anonymize]: anonymize
+      PURITY: 100% pure
+  [5] Src [_mask_secrets]: _mask_secrets
+      PURITY: 100% pure
+
+LAYERS:
+  heal/                           CC̄=5.4    ←in:0  →out:0
+  │ !! cli                        793L  0C   13m  CC=24     ←0
+  │ privacy                    385L  1C   12m  CC=9      ←1
+  │ main                        54L  1C    5m  CC=1      ←0
+  │ __init__                    19L  0C    0m  CC=0.0    ←0
+  │
+  ./                              CC̄=0.0    ←in:0  →out:0
+  │ setup                        8L  0C    0m  CC=0.0    ←0
+  │ project.sh                   2L  0C    0m  CC=0.0    ←0
+  │
+
+COUPLING: no cross-package imports detected
+
+EXTERNAL:
+  validation: run `vallm batch .` → validation.toon
+  duplication: run `redup scan .` → duplication.toon

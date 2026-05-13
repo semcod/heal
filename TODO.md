@@ -1,10 +1,9 @@
-# TODO - Heal Project
+# TODO
 
 ## High Priority
 
 - [ ] Add support for reading from clipboard (for GUI terminal users)
 - [ ] Implement `heal history` command to show past fixes and solutions
-- [x] Add `heal config` command to manage configuration interactively
 - [ ] Create shell completion scripts (bash, zsh, fish)
 - [ ] Add support for custom prompts/templates
 
@@ -12,7 +11,6 @@
 
 - [ ] Add `heal explain` command for explaining errors without fixing
 - [ ] Implement `heal suggest` for proactive suggestions based on command
-- [x] Add support for multiple LLM providers configuration
 - [ ] Create `heal learn` to save successful fixes for future reference
 - [ ] Add `heal stats` to show usage statistics
 - [ ] Implement rate limiting and caching for API calls
@@ -20,12 +18,6 @@
 
 ## Privacy & Security
 
-- [x] Built-in regex masking (emails, phones, IPs, API keys, JWT, PEM, DB passwords)
-- [x] detect-secrets integration (high-entropy strings, cloud keys)
-- [x] presidio-analyzer integration (NLP-based PII)
-- [x] priv-masker integration (Polish NLP)
-- [x] datafog integration (lightweight PII)
-- [x] faker integration (fake data replacement)
 - [ ] Add `--anonymize` as default behavior (opt-out instead of opt-in)
 - [ ] Custom regex patterns from user config
 - [ ] Implement secure API key storage (keyring integration)
@@ -45,19 +37,12 @@
 ## Documentation
 
 - [ ] Create video tutorial/demo
-- [x] Add troubleshooting guide
 - [ ] Create FAQ section
 - [ ] Add contributing guidelines
 - [ ] Create architecture documentation
-- [x] Add security best practices guide
-- [x] Comparisons with competitors (thefuck, shellcheck, aichat, sgpt)
-- [x] Privacy libraries comparison (detect-secrets, presidio, etc.)
 
 ## Testing
 
-- [x] Privacy module tests (57 test cases)
-- [x] Docker environment for e2e tests
-- [x] E2e bash test script
 - [ ] Add integration tests for different error scenarios
 - [ ] Create mock LLM responses for testing
 - [ ] Add performance benchmarks
@@ -69,8 +54,6 @@
 - [ ] Set up automated releases
 - [ ] Add code coverage reporting
 - [ ] Implement semantic versioning automation
-- [x] Create Docker image for testing
-- [x] Create docker-compose.yml for test suites
 - [ ] Add pre-commit hooks
 
 ## Community
@@ -105,3 +88,32 @@
 - [ ] Add motivational messages
 - [ ] Create heal mascot/branding
 - [ ] Add sound effects (optional, configurable)
+
+## Discovered
+
+- Track remaining CLI interface work and surface actionable items (multiple docs/feat commits reference CLI improvements)
+- Continue/refine config module refactor and finalize core configuration behaviors (refactor(config) commits)
+- Add/update examples for the configuration management system (refactor(examples))
+- Integrate and document the deep code analysis engine added under config (chore(config))
+- Update tests to reflect refactored test modules and new CLI behaviors (refactor(tests))
+
+
+## Done (moved to CHANGELOG)
+
+- [x] Add `heal config` command to manage configuration interactively
+- [x] Add support for multiple LLM providers configuration
+- [x] Built-in regex masking (emails, phones, IPs, API keys, JWT, PEM, DB passwords)
+- [x] detect-secrets integration (high-entropy strings, cloud keys)
+- [x] presidio-analyzer integration (NLP-based PII)
+- [x] priv-masker integration (Polish NLP)
+- [x] datafog integration (lightweight PII)
+- [x] faker integration (fake data replacement)
+- [x] Add troubleshooting guide
+- [x] Add security best practices guide
+- [x] Comparisons with competitors (thefuck, shellcheck, aichat, sgpt)
+- [x] Privacy libraries comparison (detect-secrets, presidio, etc.)
+- [x] Privacy module tests (57 test cases)
+- [x] Docker environment for e2e tests
+- [x] E2e bash test script
+- [x] Create Docker image for testing
+- [x] Create docker-compose.yml for test suites

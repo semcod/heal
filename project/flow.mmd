@@ -1,0 +1,38 @@
+flowchart TD
+
+    %% Entry points (blue)
+    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph CLI
+        heal__cli__get_litellm_model_name["get_litellm_model_name"]
+        heal__cli__ensure_config["ensure_config"]
+        heal__cli__last_shell_command["last_shell_command"]
+        heal__cli__read_stdin["read_stdin"]
+        heal__cli__get_last_output["get_last_output"]
+        heal__cli__call_llm["call_llm"]
+        heal__cli__main["main"]
+        heal__cli__fix["fix"]
+        heal__cli__test["test"]
+        heal__cli__init["init"]
+        heal__cli__install["install"]
+        heal__cli__config["config"]
+        heal__cli__uninstall["uninstall"]
+    end
+
+    subgraph Core
+        heal__main__hello["hello"]
+        heal__main__get_version["get_version"]
+        heal__main__ShellHealer__heal["heal"]
+        heal__main__ShellHealer____str__["__str__"]
+        heal__privacy__PrivacyMasker__is_available["is_available"]
+        heal__privacy__PrivacyMasker__available_backends["available_backends"]
+        heal__privacy__PrivacyMasker__get_install_instructions["get_install_instructions"]
+        heal__privacy__PrivacyMasker__anonymize["anonymize"]
+        heal__privacy__PrivacyMasker___mask_secrets["_mask_secrets"]
+        heal__privacy__PrivacyMasker___mask_pii["_mask_pii"]
+        heal__privacy__PrivacyMasker___detect_secrets_scan["_detect_secrets_scan"]
+        heal__privacy__PrivacyMasker___presidio_scan["_presidio_scan"]
+        heal__privacy__PrivacyMasker___priv_masker_scan["_priv_masker_scan"]
+    end
+
+    class heal__main__hello,heal__main__get_version,heal__main__ShellHealer__heal,heal__main__ShellHealer____str__,heal__privacy__PrivacyMasker__is_available,heal__privacy__PrivacyMasker__available_backends,heal__privacy__PrivacyMasker__get_install_instructions,heal__privacy__PrivacyMasker__anonymize,heal__privacy__PrivacyMasker___mask_secrets,heal__privacy__PrivacyMasker___mask_pii entry

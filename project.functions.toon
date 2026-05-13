@@ -1,0 +1,66 @@
+# heal | 10f 1819L | python:10
+# Keys: M=modules, D=details, i=imports, c=classes, f=functions, m=methods
+M[10]:
+  setup.py,6
+  heal/cli.py,580
+  heal/__init__.py,15
+  heal/main.py,42
+  heal/privacy.py,280
+  tests/test_heal.py,7
+  tests/__init__.py,3
+  tests/test_privacy.py,313
+  tests/test_main.py,36
+  tests/test_cli.py,67
+D:
+  heal/cli.py:
+    i: os,sys,subprocess,click,dotenv.{load_dotenv,set_key},litellm.completion,pathlib.Path
+    e: CONFIG_DIR,ENV_PATH,PROVIDERS,get_litellm_model_name,ensure_config,last_shell_command,read_stdin,get_last_output
+    get_litellm_model_name(provider;model)
+    ensure_config()
+    last_shell_command()
+    read_stdin()
+    get_last_output()
+    call_llm(model;api_key;prompt;raise_on_error=False)
+    main(ctx)
+    fix(model;api_key;anonymize;no_anonymize;privacy_check)
+  heal/main.py:
+    e: hello,get_version,ShellHealer
+    ShellHealer: __init__(1),heal(2),__str__(0)  # A shell healer class for managing err...
+    hello()
+    get_version()
+  heal/privacy.py:
+    i: re,os,tempfile,spacy,priv_masker.{add_pipeline,analyse_text},typing.{Any,Dict,List,Set}
+    e: PRIV_MASKER_AVAILABLE,DETECT_SECRETS_AVAILABLE,PRESIDIO_AVAILABLE,DATAFOG_AVAILABLE,FAKER_AVAILABLE,_SECRET_PATTERNS,_PII_PATTERNS,PrivacyMasker
+    PrivacyMasker: __init__(2),is_available(0),available_backends(0),get_install_instructions(0),anonymize(7)  # Multi-backend anonymizer for shell ou...
+    anonymize_shell_output(output:str;enable_privacy:bool=False)->str
+    get_privacy_status()->Dict[str, Any]
+  tests/test_heal.py:
+    e: test_placeholder,test_import
+    test_placeholder()
+    test_import()
+  tests/test_privacy.py:
+    i: os,pytest,heal.privacy.{PrivacyMasker,_PII_PATTERNS,_SECRET_PATTERNS,anonymize_shell_output,get_privacy_status}
+    e: TestEmailMasking,TestPhoneMasking,TestIDMasking,TestIPMasking,TestSecretMasking,TestRealisticScenarios,TestSelectiveMasking,TestEdgeCases
+    TestEmailMasking: test_simple_email(0),test_multiple_emails(0),test_email_with_plus(0),test_email_with_dots(0),test_no_email(0)
+    TestPhoneMasking: test_polish_phone(0),test_polish_phone_no_prefix(0),test_us_phone(0),test_phone_with_dashes(0)
+    TestIDMasking: test_pesel(0),test_credit_card(0),test_credit_card_no_spaces(0),test_ssn(0)
+    TestIPMasking: test_ipv4(0),test_localhost(0)
+    TestSecretMasking: test_aws_key(0),test_github_token(0),test_bearer_token(0),test_private_key_pem(0),test_jwt_token(0)
+  tests/test_main.py:
+    i: pytest,heal.main.{ShellHealer,get_version,hello}
+    e: test_hello,test_get_version,test_shell_healer_init,test_shell_healer_heal,test_shell_healer_str
+    test_hello()
+    test_get_version()
+    test_shell_healer_init()
+    test_shell_healer_heal()
+    test_shell_healer_str()
+  tests/test_cli.py:
+    i: os,pytest,click.testing.CliRunner,heal.cli.{ensure_config,last_shell_command,main,read_stdin},unittest.mock.{MagicMock,patch}
+    e: test_main_help,test_fix_command_no_input,test_fix_command_with_input,test_install_command,test_uninstall_command,test_last_shell_command,test_read_stdin
+    test_main_help()
+    test_fix_command_no_input()
+    test_fix_command_with_input(mock_llm;mock_stdin;mock_cmd;mock_config)
+    test_install_command()
+    test_uninstall_command()
+    test_last_shell_command()
+    test_read_stdin()

@@ -2,8 +2,6 @@
 
 Common issues and how to fix them.
 
-## Authentication Errors
-
 ### Error: "Missing Authentication header" or "401"
 
 **What it means:** Your API key is not being accepted by the provider.
@@ -55,8 +53,6 @@ Common issues and how to fix them.
    
    Make sure `HEAL_PROVIDER` matches your API key source.
 
-## Rate Limit Errors
-
 ### Error: "rate_limit_exceeded"
 
 **What it means:** You're making too many requests.
@@ -77,8 +73,6 @@ Common issues and how to fix them.
 3. **Upgrade your plan** if you need higher limits
 
 4. **Use a different model** (some have higher limits)
-
-## Quota/Credits Errors
 
 ### Error: "insufficient_quota" or "quota exceeded"
 
@@ -102,8 +96,6 @@ Common issues and how to fix them.
    # Select: OpenRouter → arcee-ai/trinity-large-preview:free
    ```
 
-## Model Not Found Errors
-
 ### Error: "model not found" or "invalid model"
 
 **What it means:** The model name is incorrect or you don't have access.
@@ -124,9 +116,7 @@ Common issues and how to fix them.
    cat ~/.heal/.env
    ```
    
-   For OpenRouter, model should be like: `openai/gpt-4o-mini` (without the `openrouter/` prefix - heal adds it automatically)
-
-## Configuration Issues
+   For OpenRouter, model should be like: `openai/gpt-5.4-mini` (without the `openrouter/` prefix - heal adds it automatically)
 
 ### "Heal is not configured yet"
 
@@ -158,8 +148,6 @@ cat ~/.heal/.env
 ```
 
 **Expected location:** `~/.heal/.env`
-
-## Command Capture Issues
 
 ### "No error input detected"
 
@@ -205,8 +193,6 @@ Should show:
 source /home/user/.heal/heal.bash
 ```
 
-## Network/Connection Errors
-
 ### Error: "Connection refused" or "timeout"
 
 **Solutions:**
@@ -223,8 +209,6 @@ source /home/user/.heal/heal.bash
 4. **Verify provider status:**
    - OpenRouter: [status.openrouter.ai](https://status.openrouter.ai)
    - OpenAI: [status.openai.com](https://status.openai.com)
-
-## Installation Issues
 
 ### "heal: command not found"
 
@@ -261,8 +245,6 @@ pip install --upgrade heal
 pip install -e ".[dev]"
 ```
 
-## Provider-Specific Issues
-
 ### OpenRouter
 
 **Issue:** "LLM Provider NOT provided"
@@ -281,7 +263,7 @@ heal config
 
 **Issue:** "This model is not available"
 
-**Solution:** Some models require special access. Use `gpt-4o-mini` or `gpt-3.5-turbo` which are generally available.
+**Solution:** Some models require special access. Use `gpt-5.4-mini` or `gpt-3.5-turbo` which are generally available.
 
 ### Anthropic
 
@@ -294,8 +276,6 @@ heal config
 **Issue:** "API key not valid"
 
 **Solution:** Google AI keys don't have a prefix. Make sure you copied the entire key from [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey).
-
-## Getting More Help
 
 ### Enable debug mode
 
@@ -319,18 +299,8 @@ cat ~/.heal/last_output.txt
 cat ~/.heal/last_exit_code.txt
 ```
 
-### Test with minimal config
-
-```bash
 # Remove config
 mv ~/.heal ~/.heal.backup
-
-# Reconfigure from scratch
-heal config
-
-# Test
-heal test
-```
 
 ### Report an issue
 

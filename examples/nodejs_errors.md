@@ -2,8 +2,6 @@
 
 Real-world Node.js and npm errors and how `heal` helps fix them.
 
-## Example 1: Module Not Found
-
 ### Error
 ```bash
 $ node app.js
@@ -44,8 +42,6 @@ The Express module is not installed in your project.
    yarn install
    ```
 ```
-
-## Example 2: npm ERR! peer dependencies
 
 ### Error
 ```bash
@@ -94,8 +90,6 @@ There's a peer dependency conflict between React versions.
    ```
 ```
 
-## Example 3: Port Already in Use
-
 ### Error
 ```bash
 $ npm start
@@ -141,8 +135,6 @@ Port 3000 is already being used by another process.
    ```
 ```
 
-## Example 4: npm ERR! 404 Not Found
-
 ### Error
 ```bash
 $ npm install my-private-package
@@ -185,8 +177,6 @@ The package doesn't exist in the public npm registry or you don't have access.
    npm config set //npm.pkg.github.com/:_authToken YOUR_TOKEN
    ```
 ```
-
-## Example 5: Build Error - Missing Dependencies
 
 ### Error
 ```bash
@@ -233,8 +223,6 @@ Webpack is not installed or not found in PATH.
    }
    ```
 ```
-
-## Example 6: SyntaxError: Unexpected token
 
 ### Error
 ```bash
@@ -284,8 +272,6 @@ You're using `await` outside of an async function.
    }).catch(console.error);
    ```
 ```
-
-## Example 7: EACCES Permission Error
 
 ### Error
 ```bash
@@ -340,8 +326,6 @@ You don't have permission to install global packages in the system directory.
    npx tsc --version
    ```
 ```
-
-## Example 8: Memory Heap Error
 
 ### Error
 ```bash

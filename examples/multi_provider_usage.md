@@ -7,13 +7,13 @@ Heal supports multiple LLM providers and makes it easy to switch between them. T
 Heal automatically handles provider-specific model formatting for litellm compatibility:
 
 ### OpenRouter
-- **Stored as:** `openai/gpt-4o-mini` or `arcee-ai/trinity-large-preview:free`
-- **Sent to litellm as:** `openrouter/openai/gpt-4o-mini` or `openrouter/arcee-ai/trinity-large-preview:free`
+- **Stored as:** `openai/gpt-5.4-mini` or `arcee-ai/trinity-large-preview:free`
+- **Sent to litellm as:** `openrouter/openai/gpt-5.4-mini` or `openrouter/arcee-ai/trinity-large-preview:free`
 - **Why:** OpenRouter requires the `openrouter/` prefix to route requests correctly
 
 ### OpenAI
-- **Stored as:** `gpt-4o-mini`
-- **Sent to litellm as:** `gpt-4o-mini` (no prefix)
+- **Stored as:** `gpt-5.4-mini`
+- **Sent to litellm as:** `gpt-5.4-mini` (no prefix)
 - **Why:** OpenAI is the default provider in litellm
 
 ### Anthropic
@@ -25,8 +25,6 @@ Heal automatically handles provider-specific model formatting for litellm compat
 - **Stored as:** `gemini-pro`
 - **Sent to litellm as:** `gemini/gemini-pro`
 - **Why:** Google models need the `gemini/` prefix
-
-## Switching Between Providers
 
 ### Method 1: Using `heal config`
 
@@ -43,7 +41,7 @@ This will show your current configuration and ask if you want to reconfigure:
 
 Current settings:
   Provider: OpenRouter
-  Model: openai/gpt-4o-mini
+  Model: openai/gpt-5.4-mini
 
 Do you want to reconfigure? [y/N]: y
 ```
@@ -77,32 +75,9 @@ HEAL_MODEL=anthropic/claude-3.5-sonnet
 HEAL_BASE_URL=https://openrouter.ai/api/v1
 ```
 
-## Using Multiple Models
-
 ### Scenario: Different Models for Different Tasks
 
 You can quickly switch models for different use cases:
-
-#### For Quick Fixes (Fast & Cheap)
-```bash
-# OpenRouter with GPT-4o-mini
-heal config
-# Select: OpenRouter → openai/gpt-4o-mini
-```
-
-#### For Complex Debugging (Most Capable)
-```bash
-# OpenRouter with Claude 3.5 Sonnet
-heal config
-# Select: OpenRouter → anthropic/claude-3.5-sonnet
-```
-
-#### For Long Context (Large Context Window)
-```bash
-# OpenRouter with Gemini Pro 1.5
-heal config
-# Select: OpenRouter → google/gemini-pro-1.5
-```
 
 ## Testing Different Providers
 
@@ -135,8 +110,6 @@ Install Flask: pip install flask
 
 ✅ Test successful! Heal is working correctly.
 ```
-
-## Provider Comparison
 
 ### OpenRouter (Recommended)
 **Pros:**
@@ -191,15 +164,12 @@ Install Flask: pip install flask
 
 **Best for:** Users who need long context or free tier
 
-## Advanced: Using Custom Models
-
 ### OpenRouter Custom Models
 
 You can use any model from [openrouter.ai/models](https://openrouter.ai/models):
 
 ```bash
 heal config
-# Select: OpenRouter → Custom
 # Enter: meta-llama/llama-3.3-70b-instruct
 ```
 
@@ -211,8 +181,6 @@ For other providers, check their documentation:
 - OpenAI: [platform.openai.com/docs/models](https://platform.openai.com/docs/models)
 - Anthropic: [docs.anthropic.com/claude/docs/models-overview](https://docs.anthropic.com/claude/docs/models-overview)
 - Google: [ai.google.dev/models/gemini](https://ai.google.dev/models/gemini)
-
-## Troubleshooting
 
 ### "LLM Provider NOT provided" Error
 
@@ -237,43 +205,20 @@ If you're switching providers, make sure to update your API key:
 
 ```bash
 heal config
-# This will prompt for a new API key
-```
-
-## Cost Optimization
-
-### Cheapest Setup
-```bash
 # OpenRouter with free models
 HEAL_PROVIDER=openrouter
 HEAL_MODEL=arcee-ai/trinity-large-preview:free
 ```
 
-### Best Value
-```bash
 # OpenRouter with GPT-4o-mini
 HEAL_PROVIDER=openrouter
-HEAL_MODEL=openai/gpt-4o-mini
+HEAL_MODEL=openai/gpt-5.4-mini
 ```
 
-### Most Capable
-```bash
 # OpenRouter with Claude 3.5 Sonnet
 HEAL_PROVIDER=openrouter
 HEAL_MODEL=anthropic/claude-3.5-sonnet
 ```
-
-## Quick Reference
-
-```bash
-# View current configuration
-cat ~/.heal/.env
-
-# Reconfigure
-heal config
-
-# Test configuration
-heal test
 
 # Use heal
 your_command

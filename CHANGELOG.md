@@ -1,4 +1,4 @@
-## [0.1.24] - 2026-02-21
+## [Unreleased]
 
 ### Summary
 
@@ -15,8 +15,6 @@ feat(docs): CLI interface improvements
 - update heal/cli.py
 
 
-## [0.1.23] - 2026-02-21
-
 ### Summary
 
 refactor(tests): test module improvements
@@ -28,8 +26,6 @@ refactor(tests): test module improvements
 - update tests/test_privacy.py
 
 
-## [0.1.22] - 2026-02-21
-
 ### Summary
 
 docs(docs): CLI interface improvements
@@ -40,8 +36,6 @@ docs(docs): CLI interface improvements
 - docs: update llm_cli_tools.md
 - docs: update privacy_libraries.md
 
-
-## [0.1.21] - 2026-02-21
 
 ### Summary
 
@@ -73,8 +67,6 @@ fix(docs): CLI interface improvements
 - update heal/privacy.py
 
 
-## [0.1.20] - 2026-02-21
-
 ### Summary
 
 refactor(examples): configuration management system
@@ -94,8 +86,6 @@ refactor(examples): configuration management system
 
 - update heal/privacy.py
 
-
-## [0.1.19] - 2026-02-21
 
 ### Summary
 
@@ -123,8 +113,6 @@ feat(docs): CLI interface improvements
 - update heal/privacy.py
 
 
-## [0.1.18] - 2026-02-21
-
 ### Summary
 
 fix(docs): CLI interface improvements
@@ -141,8 +129,6 @@ fix(docs): CLI interface improvements
 
 - update heal/cli.py
 
-
-## [Unreleased]
 
 ### Added
 
@@ -177,8 +163,6 @@ fix(docs): CLI interface improvements
 - Added GDPR/RODO compliance information
 - Added security considerations for sensitive data
 
-## [0.1.17] - 2026-02-21
-
 ### Summary
 
 feat(docs): CLI interface improvements
@@ -196,8 +180,6 @@ feat(docs): CLI interface improvements
 - update heal/cli.py
 
 
-## [0.1.16] - 2026-02-21
-
 ### Summary
 
 feat(docs): CLI interface improvements
@@ -214,8 +196,6 @@ feat(docs): CLI interface improvements
 
 - update heal/cli.py
 
-
-## [0.1.15] - 2026-02-21
 
 ### Summary
 
@@ -243,8 +223,6 @@ refactor(docs): CLI interface improvements
 
 - update heal/cli.py
 
-
-## [Unreleased]
 
 ### Added
 
@@ -299,8 +277,6 @@ refactor(docs): CLI interface improvements
 - Created comprehensive examples directory
 - Added getting started guide with step-by-step setup
 
-## [0.1.14] - 2026-02-21
-
 ### Summary
 
 refactor(config): core module improvements
@@ -314,8 +290,6 @@ refactor(config): core module improvements
 - update heal/__init__.py
 
 
-## [0.1.13] - 2026-02-21
-
 ### Summary
 
 refactor(config): config module improvements
@@ -328,8 +302,6 @@ refactor(config): config module improvements
 
 - update pyproject.toml
 
-
-## [0.1.12] - 2026-02-21
 
 ### Summary
 
@@ -340,8 +312,6 @@ refactor(tests): test module improvements
 - update tests/test_main.py
 
 
-## [0.1.11] - 2026-02-21
-
 ### Summary
 
 refactor(config): config module improvements
@@ -355,8 +325,6 @@ refactor(config): config module improvements
 - update pyproject.toml
 
 
-## [0.1.10] - 2026-02-21
-
 ### Summary
 
 refactor(config): config module improvements
@@ -369,8 +337,6 @@ refactor(config): config module improvements
 
 - update pyproject.toml
 
-
-## [0.1.9] - 2026-02-21
 
 ### Summary
 
@@ -381,8 +347,6 @@ chore(config): deep code analysis engine
 - update pyproject.toml
 
 
-## [0.1.8] - 2026-02-21
-
 ### Summary
 
 chore(config): deep code analysis engine
@@ -392,7 +356,14 @@ chore(config): deep code analysis engine
 - update pyproject.toml
 
 
-## [0.1.7] - 2026-02-21
+### Summary
+
+chore(config): config module improvements
+
+### Build
+
+- update pyproject.toml
+
 
 ### Summary
 
@@ -403,8 +374,6 @@ chore(config): config module improvements
 - update pyproject.toml
 
 
-## [0.1.6] - 2026-02-21
-
 ### Summary
 
 chore(config): config module improvements
@@ -413,19 +382,6 @@ chore(config): config module improvements
 
 - update pyproject.toml
 
-
-## [0.1.5] - 2026-02-21
-
-### Summary
-
-chore(config): config module improvements
-
-### Build
-
-- update pyproject.toml
-
-
-## [0.1.4] - 2026-02-21
 
 ### Summary
 
@@ -439,8 +395,6 @@ refactor(config): config module improvements
 
 - update pyproject.toml
 
-
-## [0.1.3] - 2026-02-21
 
 ### Summary
 
@@ -455,8 +409,6 @@ feat(tests): CLI interface improvements
 
 - update pyproject.toml
 
-
-## [0.1.2] - 2026-02-21
 
 ### Summary
 
@@ -486,8 +438,6 @@ refactor(tests): CLI interface improvements
 - update pytest.ini
 
 
-## [0.1.1] - 2026-02-21
-
 ### Summary
 
 refactor(goal): CLI interface improvements
@@ -516,4 +466,10 @@ refactor(goal): CLI interface improvements
 - update heal/main.py
 - scripts: update project.sh
 
+- feat(docs): CLI interface improvements (multiple documentation updates improving CLI UX and docs)
+- refactor(config): core/config module improvements (ongoing refactor of configuration handling)
+- refactor(tests): test module improvements (test suite refactors and cleanup)
+- refactor(examples): configuration management system (improve examples around config management)
+- chore(config): deep code analysis engine (internal tooling added)
+- fix(docs): minor documentation fixes
 

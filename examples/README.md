@@ -2,8 +2,6 @@
 
 This directory contains real-world error examples and how `heal` helps fix them.
 
-## Available Examples
-
 ### [Python Errors](python_errors.md)
 Common Python development errors:
 - ModuleNotFoundError
@@ -52,9 +50,6 @@ Each example shows:
 2. **Using heal** - How to pipe the error to heal
 3. **Expected Solution** - What heal should suggest
 
-### Try It Yourself
-
-```bash
 # Simulate an error and fix it
 python non_existent_script.py 2>&1 | heal
 
@@ -71,11 +66,6 @@ Have a common error that should be documented? Please contribute!
 2. Add your example to the appropriate file
 3. Follow the existing format
 4. Submit a pull request
-
-## Format Template
-
-```markdown
-## Example N: Brief Description
 
 ### Error
 \`\`\`bash

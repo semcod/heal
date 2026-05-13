@@ -1,0 +1,194 @@
+import os
+import click
+from dotenv import load_dotenv, set_key
+
+def get_litellm_model_name(provider, model):
+    provider_info = PROVIDERS.get(provider, {})
+    prefix = provider_info.get("litellm_prefix")
+    if prefix:
+        if not model.startswith(prefix):
+            return f"{prefix}{model}"
+    return model
+
+def test():
+    click.echo("\n🧪 Testing heal configuration...\n")
+    load_dotenv(ENV_PATH)
+    provider = os.getenv("HEAL_PROVIDER")
+    model = os.getenv("HEAL_MODEL")
+    api_key = os.getenv("HEAL_API_KEY")
+
+    if not all([provider, model, api_key]):
+        handle_unconfigured(provider)
+        return
+
+    provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
+    litellm_model = get_litellm_model_name(provider, model)
+    display_configuration(provider_info, model, api_key, litellm_model)
+
+    simulated_command = "python app.py"
+    simulated_error = """Traceback (most recent call last):\n  File \"app.py\", line 3, in <module>\n    from flask import Flask\nModuleNotFoundError: No module named 'flask'"""
+
+    click.echo("📝 Simulating error:")
+    click.echo(f"   Command: {simulated_command}")
+    click.echo(f"   Error: ModuleNotFoundError: No module named 'flask'")
+    click.echo() 
+    click.echo("🤖 Asking LLM for solution...\n")
+
+    prompt = create_test_prompt(simulated_command, simulated_error)
+    try:
+        response = call_llm(model, api_key, prompt, raise_on_error=True)
+        display_llm_response(response)
+    except Exception as e:
+        handle_test_failure(e)
+
+
+def handle_unconfigured(provider):
+    click.echo("❌ Heal is not configured yet.")
+    click.echo()
+    if click.confirm("Would you like to configure it now?", default=True):
+        ensure_config()
+        click.echo("\n✅ Configuration complete! Running test...\n")
+        load_dotenv(ENV_PATH)
+    else:
+        click.echo("   Run 'heal config' when ready to set up.\n")
+
+
+def display_configuration(provider_info, model, api_key, litellm_model):
+    click.echo(f"✓ Provider: {provider_info['name']}")
+    click.echo(f"✓ Model: {model}")
+    if litellm_model != model:
+        click.echo(f"  (litellm format: {litellm_model})")
+    click.echo(f"✓ API Key: {'*' * 20}{api_key[-4:]}")
+    click.echo()
+
+
+def create_test_prompt(simulated_command, simulated_error):
+    return f"""You are a CLI assistant that helps fix shell errors.\n\nThe user executed: {simulated_command}\n\nAnd got this error:\n{simulated_error}\n\nProvide a brief, practical solution (2-3 sentences max)."""
+
+
+def display_llm_response(response):
+    click.echo("💡 LLM Response:")
+    click.echo("─" * 60)
+    click.echo(response)
+    click.echo("─" * 60)
+    click.echo() 
+    click.echo("✅ Test successful! Heal is working correctly.")
+    click.echo("   You can now use: command 2>&1 | heal")
+
+
+def handle_test_failure(exception):
+    error_str = str(exception)
+    click.echo("❌ Test failed!\n")
+    click.echo("💡 Error Details:")
+    click.echo("─" * 60)
+
+    if "AuthenticationError" in error_str or "401" in error_str:
+        handle_authentication_error()
+    elif "rate_limit" in error_str.lower():
+        handle_rate_limit_error()
+    elif "insufficient" in error_str.lower() or "quota" in error_str.lower():
+        handle_insufficient_credits_error()
+    else:
+        handle_generic_error(error_str)
+
+
+def handle_authentication_error():
+    click.echo("Authentication failed - your API key appears to be invalid.\n")
+    click.echo("Possible causes:")
+    click.echo("  • API key is incorrect or expired")
+    click.echo("  • API key doesn't have proper permissions")
+    click.echo("  • Wrong provider selected for this API key")
+    click.echo() 
+    click.echo("Let's reconfigure your settings step by step:\n")
+    handle_reconfiguration_options()
+
+
+def handle_reconfiguration_options():
+    click.echo("What would you like to do?")
+    click.echo("  1. Change provider and API key")
+    click.echo("  2. Just update API key (keep current provider)")
+    click.echo("  3. Try a different model (keep provider and key)")
+    click.echo("  4. Cancel")
+
+    choice = click.prompt("\nSelect option", type=click.IntRange(1, 4), default=1)
+
+    if choice == 1:
+        reconfigure_full()
+    elif choice == 2:
+        update_api_key()
+    elif choice == 3:
+        change_model()
+    else:
+        click.echo("\nRun 'heal config' when ready to fix your configuration.")
+
+
+def reconfigure_full():
+    click.echo("\n🔧 Full reconfiguration\n")
+    if ENV_PATH.exists():
+        ENV_PATH.unlink()
+    for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL"]:
+        os.environ.pop(key, None)
+    ensure_config()
+    click.echo("\n✅ Reconfigured! Try running 'heal test' again.")
+
+
+def update_api_key():
+    click.echo("\n🔑 Update API key\n")
+    provider = os.getenv("HEAL_PROVIDER", "openrouter")
+    provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
+    click.echo(f"Provider: {provider_info['name']}")
+    click.echo(f"Get your API key: {click.style(provider_info['api_key_url'], fg='cyan', underline=True)}\n")
+    new_api_key = click.prompt("Enter your new API key", type=str).strip()
+    set_key(ENV_PATH, "HEAL_API_KEY", new_api_key)
+    os.environ["HEAL_API_KEY"] = new_api_key
+    click.echo("\n✅ API key updated! Try running 'heal test' again.")
+
+
+def change_model():
+    click.echo("\n🤖 Select a different model\n")
+    provider = os.getenv("HEAL_PROVIDER", "openrouter")
+    provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
+    models = provider_info['models']
+    for i, (model_id, description) in enumerate(models, 1):
+        click.echo(f"  {i}. {model_id}")
+        click.echo(f"     {click.style(description, fg='bright_black')}")
+    click.echo(f"\n  {len(models) + 1}. Custom (enter model name manually)")
+
+    model_choice = click.prompt("\nSelect model", type=click.IntRange(1, len(models) + 1), default=1)
+    if model_choice <= len(models):
+        new_model = models[model_choice - 1][0]
+    else:
+        new_model = click.prompt("Enter custom model name", type=str).strip()
+
+    set_key(ENV_PATH, "HEAL_MODEL", new_model)
+    os.environ["HEAL_MODEL"] = new_model
+    click.echo(f"\n✅ Model changed to: {new_model}")
+    click.echo("Try running 'heal test' again.")
+
+
+def handle_rate_limit_error():
+    click.echo("Rate limit exceeded - you're making too many requests.\n")
+    click.echo("Solutions:")
+    click.echo("  • Wait a few minutes and try again")
+    click.echo("  • Check your provider's rate limits")
+    click.echo("  • Consider upgrading your plan")
+
+
+def handle_insufficient_credits_error():
+    click.echo("Insufficient credits or quota exceeded.\n")
+    click.echo("Solutions:")
+    click.echo("  • Add credits to your account")
+    click.echo("  • Enable billing if not already enabled")
+    click.echo("  • Check your usage limits")
+
+
+def handle_generic_error(error_str):
+    click.echo(f"{error_str}\n")
+    click.echo("Troubleshooting:")
+    click.echo("  1. Verify your API key is valid")
+    click.echo("  2. Check you have credits/billing enabled")
+    click.echo("  3. Ensure the model name is correct")
+    click.echo("  4. Try a different model")
+    click.echo() 
+    if click.confirm("Would you like to reconfigure?", default=False):
+        handle_reconfiguration_options()

@@ -2,8 +2,6 @@
 
 Get started with privacy protection in 2 minutes.
 
-## Installation
-
 ### Option 1: Basic Protection (Included)
 
 ```bash
@@ -27,8 +25,6 @@ Adds advanced NLP-based masking for:
 - Addresses → `[ADDRESS]`
 - Dates → `[DATE]`
 - And more...
-
-## Usage
 
 ### Basic Usage
 
@@ -54,13 +50,6 @@ heal --no-anonymize
 Configure default anonymization behavior:
 
 ```bash
-# First-time setup - will ask about privacy
-heal config
-
-# Check current settings
-heal config
-```
-
 ### Check Status
 
 See what's available:
@@ -78,8 +67,6 @@ priv-masker installed: ✓
 SpaCy model loaded: ✓
 ```
 
-## Examples
-
 ### Example 1: Email in Error
 
 **Before:**
@@ -91,9 +78,6 @@ $ python send.py 2>&1 | heal
 **After:**
 ```bash
 $ python send.py 2>&1 | heal --anonymize
-# Sends: "Error: Failed to send to [EMAIL]"
-```
-
 ### Example 2: Phone Number
 
 **Before:**
@@ -105,9 +89,6 @@ $ python sms.py 2>&1 | heal
 **After:**
 ```bash
 $ python sms.py 2>&1 | heal --anonymize
-# Sends: "Invalid phone: [PHONE]"
-```
-
 ### Example 3: Personal Data (Full Protection)
 
 **Before:**
@@ -119,9 +100,6 @@ $ python process.py 2>&1 | heal
 **After:**
 ```bash
 $ python process.py 2>&1 | heal --anonymize
-# Sends: "Processing [PERSNAME], [ADDRESS], PESEL: [ID_NUMBER]"
-```
-
 ## Create Alias
 
 For convenience:
@@ -171,9 +149,6 @@ Always review output before sending sensitive data.
 - Check [Security Considerations](privacy_protection.md#security-considerations)
 - Learn about [GDPR Compliance](privacy_protection.md#privacy-policy-compliance)
 
-## Quick Reference
-
-```bash
 # Install full protection
 pip install heal[privacy]
 python -m spacy download pl_nask-0.0.5
@@ -184,12 +159,6 @@ heal fix --privacy-check
 # Use anonymization (short and long forms)
 heal -a
 heal --anonymize
-
-# Disable anonymization
-heal --no-anonymize
-
-# Configure default behavior
-heal config
 
 # Create alias for quick access
 alias healp='heal -a'

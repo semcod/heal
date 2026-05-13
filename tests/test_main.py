@@ -2,7 +2,6 @@
 Tests for heal.main module.
 """
 
-import pytest
 from heal.main import hello, get_version, ShellHealer
 
 
@@ -18,14 +17,14 @@ def test_get_version():
     """Test get_version function."""
     result = get_version()
     assert isinstance(result, str)
-    assert result == "0.1.22"
+    assert result == "0.1.24"
 
 
 def test_shell_healer_init():
     """Test ShellHealer initialization."""
     healer = ShellHealer()
     assert healer.name == "ShellHealer"
-    
+
     healer_custom = ShellHealer("CustomHealer")
     assert healer_custom.name == "CustomHealer"
 
@@ -35,7 +34,7 @@ def test_shell_healer_heal():
     healer = ShellHealer()
     command = "make dev"
     error = "Error: file not found"
-    
+
     result = healer.heal(command, error)
     assert isinstance(result, str)
     assert command in result

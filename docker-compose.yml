@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile.e2e
     environment:
       - HEAL_PROVIDER=openrouter
-      - HEAL_MODEL=openai/gpt-4o-mini
+      - HEAL_MODEL=openai/gpt-5.4-mini
       # Set HEAL_API_KEY via: docker compose run -e HEAL_API_KEY=xxx e2e-tests
     volumes:
       - .:/app

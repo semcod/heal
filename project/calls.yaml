@@ -1,0 +1,107 @@
+project: /home/tom/github/semcod/heal
+generated_from: code2llm call graph analysis
+stats:
+  total_nodes: 7
+  total_edges: 6
+  modules_count: 1
+nodes:
+  heal.cli.fix:
+    name: fix
+    module: heal.cli
+    line: 310
+    cyclomatic_complexity: 18
+    calls_out: 39
+    calls_in: 0
+  heal.cli.get_litellm_model_name:
+    name: get_litellm_model_name
+    module: heal.cli
+    line: 101
+    cyclomatic_complexity: 3
+    calls_out: 3
+    calls_in: 2
+  heal.cli.config:
+    name: config
+    module: heal.cli
+    line: 735
+    cyclomatic_complexity: 9
+    calls_out: 23
+    calls_in: 0
+  heal.cli.test:
+    name: test
+    module: heal.cli
+    line: 410
+    cyclomatic_complexity: 24
+    calls_out: 141
+    calls_in: 0
+  heal.cli.call_llm:
+    name: call_llm
+    module: heal.cli
+    line: 254
+    cyclomatic_complexity: 8
+    calls_out: 4
+    calls_in: 2
+  heal.cli.last_shell_command:
+    name: last_shell_command
+    module: heal.cli
+    line: 210
+    cyclomatic_complexity: 4
+    calls_out: 5
+    calls_in: 1
+  heal.cli.ensure_config:
+    name: ensure_config
+    module: heal.cli
+    line: 114
+    cyclomatic_complexity: 14
+    calls_out: 52
+    calls_in: 3
+edges:
+- caller: heal.cli.call_llm
+  callee: heal.cli.get_litellm_model_name
+  call_type: resolved
+- caller: heal.cli.fix
+  callee: heal.cli.ensure_config
+  call_type: resolved
+- caller: heal.cli.fix
+  callee: heal.cli.last_shell_command
+  call_type: resolved
+- caller: heal.cli.fix
+  callee: heal.cli.call_llm
+  call_type: resolved
+- caller: heal.cli.test
+  callee: heal.cli.get_litellm_model_name
+  call_type: resolved
+- caller: heal.cli.config
+  callee: heal.cli.ensure_config
+  call_type: resolved
+modules:
+  heal.cli:
+  - heal.cli.call_llm
+  - heal.cli.config
+  - heal.cli.ensure_config
+  - heal.cli.fix
+  - heal.cli.get_litellm_model_name
+  - heal.cli.last_shell_command
+  - heal.cli.test
+entry_points:
+- heal.cli.config
+- heal.cli.fix
+- heal.cli.init
+- heal.cli.install
+- heal.cli.main
+- heal.cli.test
+- heal.cli.uninstall
+- heal.main.ShellHealer.__init__
+- heal.main.ShellHealer.__str__
+- heal.main.ShellHealer.heal
+- heal.main.get_version
+- heal.main.hello
+- heal.privacy.PrivacyMasker.__init__
+- heal.privacy.PrivacyMasker._detect_secrets_scan
+- heal.privacy.PrivacyMasker._mask_pii
+- heal.privacy.PrivacyMasker._mask_secrets
+- heal.privacy.PrivacyMasker._presidio_scan
+- heal.privacy.PrivacyMasker._priv_masker_scan
+- heal.privacy.PrivacyMasker.anonymize
+- heal.privacy.PrivacyMasker.available_backends
+- heal.privacy.PrivacyMasker.get_install_instructions
+- heal.privacy.PrivacyMasker.is_available

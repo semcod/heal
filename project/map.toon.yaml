@@ -1,0 +1,42 @@
+# heal | 6f 1261L | shell:1,python:5 | 2026-04-19
+# stats: 30 func | 0 cls | 6 mod | CC̄=5.4 | critical:2 | cycles:0
+# alerts[5]: fan-out test=22; CC test=24; CC fix=18; fan-out ensure_config=18; fan-out fix=15
+# hotspots[5]: test fan=22; ensure_config fan=18; fix fan=15; config fan=13; PrivacyMasker._detect_secrets_scan fan=12
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[6]:
+  heal/__init__.py,19
+  heal/cli.py,793
+  heal/main.py,54
+  heal/privacy.py,385
+  project.sh,2
+  setup.py,8
+D:
+  heal/cli.py:
+    e: get_litellm_model_name,ensure_config,last_shell_command,read_stdin,get_last_output,call_llm,main,fix,test,init,install,config,uninstall
+    get_litellm_model_name(provider;model)
+    ensure_config()
+    last_shell_command()
+    read_stdin()
+    get_last_output()
+    call_llm(model;api_key;prompt;raise_on_error)
+    main(ctx)
+    fix(model;api_key;anonymize;no_anonymize;privacy_check)
+    test()
+    init()
+    install()
+    config()
+    uninstall()
+  heal/privacy.py:
+    e: PrivacyMasker,anonymize_shell_output,get_privacy_status
+    PrivacyMasker: __init__(2),is_available(0),available_backends(0),get_install_instructions(-1),anonymize(9),_mask_secrets(0),_mask_pii(2),_detect_secrets_scan(0),_presidio_scan(1),_priv_masker_scan(1)  # Multi-backend anonymizer for shell output before sending to ...
+    anonymize_shell_output(output;enable_privacy)
+    get_privacy_status()
+  heal/main.py:
+    e: ShellHealer,hello,get_version
+    ShellHealer: __init__(1),heal(2),__str__(0)  # A shell healer class for managing error fixing sessions...
+    hello()
+    get_version()
+  project.sh:
+  heal/__init__.py:
+  setup.py:

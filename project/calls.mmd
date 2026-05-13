@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph heal__cli
+        heal__cli__fix["fix"]
+        heal__cli__get_litellm_model_name["get_litellm_model_name"]
+        heal__cli__config["config"]
+        heal__cli__test["test"]
+        heal__cli__call_llm["call_llm"]
+        heal__cli__last_shell_command["last_shell_command"]
+        heal__cli__ensure_config["ensure_config"]
+    end
+    heal__cli__call_llm --> heal__cli__get_litellm_model_name
+    heal__cli__fix --> heal__cli__ensure_config
+    heal__cli__fix --> heal__cli__last_shell_command
+    heal__cli__fix --> heal__cli__call_llm
+    heal__cli__test --> heal__cli__get_litellm_model_name
+    heal__cli__config --> heal__cli__ensure_config

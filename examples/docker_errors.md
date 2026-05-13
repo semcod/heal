@@ -2,8 +2,6 @@
 
 Real-world Docker errors and how `heal` helps fix them.
 
-## Example 1: Port Already in Use
-
 ### Error
 ```bash
 $ docker run -p 8080:80 nginx
@@ -44,8 +42,6 @@ Port 8080 is already being used by another process on your system.
    docker stop <container_id>
    ```
 ```
-
-## Example 2: Dockerfile Build Error - COPY Failed
 
 ### Error
 ```bash
@@ -88,8 +84,6 @@ Docker cannot find `requirements.txt` in the build context.
    ```
 ```
 
-## Example 3: Permission Denied in Container
-
 ### Error
 ```bash
 $ docker run myapp
@@ -131,8 +125,6 @@ The container process doesn't have permission to create directories.
    ```
 ```
 
-## Example 4: Docker Compose Network Error
-
 ### Error
 ```bash
 $ docker-compose up
@@ -173,8 +165,6 @@ Docker Compose is looking for an external network that doesn't exist.
        driver: bridge
    ```
 ```
-
-## Example 5: Image Not Found
 
 ### Error
 ```bash
@@ -218,8 +208,6 @@ Docker cannot find the image locally or remotely.
    docker pull registry.example.com/mycompany/myapp:latest
    ```
 ```
-
-## Example 6: Out of Disk Space
 
 ### Error
 ```bash
@@ -267,8 +255,6 @@ Docker has run out of disk space.
 
 5. If using Docker Desktop, increase disk allocation in settings.
 ```
-
-## Example 7: Container Exits Immediately
 
 ### Error
 ```bash

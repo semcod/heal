@@ -7,6 +7,21 @@
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](#docker-testing)
 [![Privacy](https://img.shields.io/badge/privacy-6%20backends-purple.svg)](#privacy-protection)
 
+
+## AI Cost Tracking
+
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.31-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.43-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-4.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+
+- 🤖 **LLM usage:** $0.4318 (26 commits)
+- 👤 **Human dev:** ~$410 (4.1h @ $100/h, 30min dedup)
+
+Generated on 2026-04-20 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+
+---
+
+
+
 **LLM-powered shell error fixing** — Your AI assistant for debugging and fixing command-line errors instantly, with built-in privacy protection.
 
 ## Installation
@@ -18,58 +33,19 @@ pip install heal
 pip install heal[privacy]
 ```
 
-## Quick Start
-
-### Complete Setup (Recommended)
-
-```bash
-# 1. Configure heal (first time only)
-heal config
-
-# 2. Test your configuration
-heal test
-
-# 3. Initialize bash integration
-heal init
-
-# 4. Restart your shell
-source ~/.bashrc
-
 # 5. Use heal - just run any command and then heal!
 python broken_script.py
 heal
 ```
 
-### Simplest Usage - Just `heal`
-
-```bash
-# Run any failing command, then simply run heal
-npm install
-heal
-
 # Or pipe errors directly
 make build 2>&1 | heal
-
-# From error file
-heal < error.log
 
 # With privacy protection (anonymize sensitive data)
 production_script.py 2>&1 | heal -a
 # or long form:
 production_script.py 2>&1 | heal --anonymize
 ```
-
-### Automatic Mode (with shell integration)
-
-```bash
-# Initialize bash integration (recommended)
-heal init
-
-# This will automatically add to ~/.bashrc
-# Or manually add: source ~/.heal/heal.bash
-
-# Restart your shell
-source ~/.bashrc
 
 # Now you can run any command and heal will capture it:
 your_failing_command
@@ -99,10 +75,6 @@ production_script.py 2>&1 | heal -a
 # Check which backends are active
 heal fix --privacy-check
 
-# Configure default anonymization (first time setup)
-heal config
-```
-
 ### Privacy Flags
 
 | Flag | Description |
@@ -116,12 +88,6 @@ heal config
 During first configuration (`heal config`), you'll be asked whether to enable anonymization by default. This setting can be overridden with flags:
 
 ```bash
-# Uses your default setting (from config)
-heal fix
-
-# Forces anonymization regardless of default
-heal fix -a
-
 # Disables anonymization regardless of default  
 heal fix --no-anonymize
 ```
@@ -167,138 +133,52 @@ heal fix --no-anonymize
 | [Shell Error Fixers](comparisons/shell_error_fixers.md) | heal vs thefuck vs shellcheck vs explainshell |
 | [LLM CLI Tools](comparisons/llm_cli_tools.md) | heal vs aichat vs sgpt vs llm |
 
-## Usage Examples
-
-### Python Development
-
-```bash
 # Missing dependencies
 python app.py 2>&1 | heal
-# → Suggests: pip install <missing-package>
-
 # Import errors
 python -m pytest 2>&1 | heal
-# → Analyzes import paths and suggests fixes
-
 # Virtual environment issues
 python script.py 2>&1 | heal
-# → Detects venv problems and suggests activation
-```
-
-### Node.js / JavaScript
-
-```bash
 # NPM install failures
 npm install 2>&1 | heal
-# → Suggests clearing cache, fixing package.json, or using --legacy-peer-deps
-
 # Build errors
 npm run build 2>&1 | heal
-# → Analyzes webpack/vite errors and suggests configuration fixes
-
 # Module not found
 node app.js 2>&1 | heal
-# → Suggests installing missing packages or fixing import paths
-```
-
-### Docker & Containers
-
-```bash
 # Docker build failures
 docker build . 2>&1 | heal
-# → Analyzes Dockerfile errors and suggests fixes
-
 # Container runtime errors
 docker-compose up 2>&1 | heal
-# → Suggests port conflicts, volume issues, or network problems
-
 # Permission issues
 docker run myimage 2>&1 | heal
-# → Suggests user/group fixes or volume mount corrections
-```
-
-### Git Operations
-
-```bash
 # Merge conflicts
 git merge feature-branch 2>&1 | heal
-# → Suggests conflict resolution strategies
-
 # Push/pull errors
 git push origin main 2>&1 | heal
-# → Analyzes authentication, branch tracking, or force push needs
-
 # Rebase issues
 git rebase main 2>&1 | heal
-# → Suggests conflict resolution or rebase abort/continue
-```
-
-### Build Systems
-
-```bash
 # Make errors
 make build 2>&1 | heal
-# → Analyzes missing dependencies or compilation errors
-
-# CMake configuration
-cmake . 2>&1 | heal
-# → Suggests missing libraries or configuration flags
-
 # Gradle/Maven builds
 ./gradlew build 2>&1 | heal
-# → Analyzes Java compilation or dependency errors
-```
-
-### Database Operations
-
-```bash
 # PostgreSQL connection
 psql -U user -d database 2>&1 | heal
-# → Suggests authentication fixes or connection string corrections
-
 # MySQL import errors
 mysql < dump.sql 2>&1 | heal
-# → Analyzes syntax errors or permission issues
-
 # MongoDB connection
 mongosh mongodb://localhost:27017 2>&1 | heal
-# → Suggests service status checks or authentication fixes
-```
-
-### System Administration
-
-```bash
 # Permission denied
 ./script.sh 2>&1 | heal
-# → Suggests chmod +x or sudo usage
-
 # Port already in use
 python -m http.server 8000 2>&1 | heal
-# → Suggests finding and killing the process using the port
-
 # Disk space issues
 cp large-file.zip /destination 2>&1 | heal
-# → Suggests cleaning up space or alternative locations
-```
-
-### Package Management
-
-```bash
 # APT/DNF errors
 sudo apt install package 2>&1 | heal
-# → Suggests repository updates or alternative package names
-
 # Homebrew issues
 brew install tool 2>&1 | heal
-# → Suggests tap additions or formula fixes
-
 # pip install failures
 pip install package 2>&1 | heal
-# → Suggests using --user, venv, or resolving dependency conflicts
-```
-
-## Commands
-
 ### `heal` (default)
 Fix shell errors using LLM. Reads from stdin or captured output.
 
@@ -365,8 +245,6 @@ Show help message and available commands.
 heal --help
 ```
 
-## Configuration
-
 ### First-Time Setup
 
 On first run, heal will guide you through an interactive setup:
@@ -393,7 +271,7 @@ Enter your API key: sk-or-...
 
 🤖 Select a model from OpenRouter:
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -417,8 +295,6 @@ Change your provider, API key, or model anytime:
 ```bash
 heal config
 ```
-
-### Supported Providers
 
 #### 🌐 OpenRouter (Recommended)
 - **Why?** Access to all models with one API key
@@ -444,13 +320,11 @@ Edit `~/.heal/.env`:
 ```bash
 HEAL_PROVIDER=openrouter
 HEAL_API_KEY=your-api-key-here
-HEAL_MODEL=openai/gpt-4o-mini
+HEAL_MODEL=openai/gpt-5.4-mini
 HEAL_BASE_URL=https://openrouter.ai/api/v1
 ```
 
 Configuration is stored in `~/.heal/.env`.
-
-## Testing
 
 ### Unit tests
 
@@ -465,9 +339,6 @@ python -m pytest -v
 python -m pytest tests/test_privacy.py -v
 ```
 
-### Docker Testing
-
-```bash
 # All unit tests
 docker compose run unit-tests
 
@@ -481,14 +352,8 @@ docker compose run e2e-tests
 docker compose run privacy-full
 ```
 
-## Development
-
-```bash
 # Install in development mode
 pip install -e ".[dev]"
-
-# Run all tests
-python -m pytest -v
 
 # Run with coverage
 python -m pytest --cov=heal -v
@@ -530,3 +395,20 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - **TODO:** [TODO.md](TODO.md)
 - **Comparisons:** [comparisons/](comparisons/README.md)
+
+<!-- taskill:status:start -->
+
+## Status
+
+_Last updated by [taskill](https://github.com/oqlos/taskill) at 2026-04-25 13:38 UTC_
+
+| Metric | Value |
+|---|---|
+| HEAD | `72de64a` |
+| Coverage | — |
+| Failing tests | — |
+| Commits in last cycle | 26 |
+
+> Work focused on CLI-related documentation and interface polish, plus a broad refactor of the configuration and test modules. Additional chores introduce a deep code analysis engine and example/configuration improvements.
+
+<!-- taskill:status:end -->

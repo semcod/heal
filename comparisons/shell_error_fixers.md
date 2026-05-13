@@ -1,5 +1,3 @@
-# Shell Error Fixers Comparison
-
 ## heal vs Other Error-Fixing Tools
 
 | Feature | heal | thefuck | shellcheck | explainshell |
@@ -114,14 +112,8 @@
 | Learning shell syntax | explainshell |
 | Production errors with PII | **heal** (with `--anonymize`) |
 
-## Using Them Together
-
-```bash
 # 1. Use shellcheck for shell scripts
 shellcheck deploy.sh
-
-# 2. Use thefuck for quick typo fixes
-fuck
 
 # 3. Use heal for complex errors
 make build 2>&1 | heal

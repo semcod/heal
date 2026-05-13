@@ -12,6 +12,36 @@ import click
 from dotenv import load_dotenv, set_key
 from litellm import completion
 
+CONSTANT_3 = 3
+CONSTANT_4 = 4
+CONSTANT_20 = 20
+CONSTANT_60 = 60
+
+
+CONSTANT_3 = CONSTANT_3
+CONSTANT_4 = CONSTANT_4
+CONSTANT_20 = CONSTANT_20
+CONSTANT_60 = CONSTANT_60
+
+
+CONSTANT_3 = CONSTANT_3
+CONSTANT_4 = CONSTANT_4
+CONSTANT_20 = CONSTANT_20
+CONSTANT_60 = CONSTANT_60
+
+
+CONSTANT_3 = CONSTANT_3
+CONSTANT_4 = CONSTANT_4
+CONSTANT_20 = CONSTANT_20
+CONSTANT_60 = CONSTANT_60
+
+
+CONSTANT_3 = CONSTANT_3
+CONSTANT_4 = CONSTANT_4
+CONSTANT_20 = CONSTANT_20
+CONSTANT_60 = CONSTANT_60
+
+
 CONFIG_DIR = Path.home() / ".heal"
 ENV_PATH = CONFIG_DIR / ".env"
 
@@ -23,14 +53,14 @@ PROVIDERS = {
         "base_url": "https://openrouter.ai/api/v1",
         "litellm_prefix": "openrouter/",  # Prefix for litellm
         "models": [
-            ("openai/gpt-4o-mini", "GPT-4o Mini (fast, cheap, recommended)"),
+            ("openai/gpt-5.4-mini", "GPT-4o Mini (fast, cheap, recommended)"),
             ("openai/gpt-4o", "GPT-4o (most capable)"),
             ("anthropic/claude-3.5-sonnet", "Claude 3.5 Sonnet (excellent reasoning)"),
             ("google/gemini-pro-1.5", "Gemini Pro 1.5 (long context)"),
             ("meta-llama/llama-3.1-70b-instruct", "Llama 3.1 70B (open source)"),
             ("qwen/qwen-2.5-72b-instruct", "Qwen 2.5 72B (multilingual)"),
             ("arcee-ai/trinity-large-preview:free", "Trinity Large (free, fast)"),
-        ]
+        ],
     },
     "openai": {
         "name": "OpenAI",
@@ -38,11 +68,11 @@ PROVIDERS = {
         "base_url": None,
         "litellm_prefix": None,  # No prefix needed for OpenAI
         "models": [
-            ("gpt-4o-mini", "GPT-4o Mini (fast, cheap, recommended)"),
+            ("gpt-5.4-mini", "GPT-4o Mini (fast, cheap, recommended)"),
             ("gpt-4o", "GPT-4o (most capable)"),
             ("gpt-4-turbo", "GPT-4 Turbo (previous generation)"),
             ("gpt-3.5-turbo", "GPT-3.5 Turbo (legacy, cheap)"),
-        ]
+        ],
     },
     "anthropic": {
         "name": "Anthropic",
@@ -53,7 +83,7 @@ PROVIDERS = {
             ("claude-3-5-sonnet-20241022", "Claude 3.5 Sonnet (recommended)"),
             ("claude-3-opus-20240229", "Claude 3 Opus (most capable)"),
             ("claude-3-haiku-20240307", "Claude 3 Haiku (fast, cheap)"),
-        ]
+        ],
     },
     "google": {
         "name": "Google AI",
@@ -63,7 +93,7 @@ PROVIDERS = {
         "models": [
             ("gemini-pro", "Gemini Pro (recommended)"),
             ("gemini-pro-vision", "Gemini Pro Vision (multimodal)"),
-        ]
+        ],
     },
 }
 
@@ -72,12 +102,12 @@ def get_litellm_model_name(provider, model):
     """Convert model name to litellm format with provider prefix if needed."""
     provider_info = PROVIDERS.get(provider, {})
     prefix = provider_info.get("litellm_prefix")
-    
+
     if prefix:
         # Check if model already has the prefix
         if not model.startswith(prefix):
             return f"{prefix}{model}"
-    
+
     return model
 
 
@@ -94,7 +124,12 @@ def ensure_config():
     api_key = os.getenv("HEAL_API_KEY")
     model = os.getenv("HEAL_MODEL")
     base_url = os.getenv("HEAL_BASE_URL")
-    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in ("true", "1", "yes", "on")
+    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in (
+        "true",
+        "1",
+        "yes",
+        "on",
+    )
 
     # Select provider if not configured
     if not provider:
@@ -105,13 +140,13 @@ def ensure_config():
             prov_info = PROVIDERS[prov_key]
             default_marker = " (recommended)" if prov_key == "openrouter" else ""
             click.echo(f"  {i}. {prov_info['name']}{default_marker}")
-        
-        click.echo("\n💡 Tip: OpenRouter gives you access to all models with one API key")
-        
+
+        click.echo(
+            "\n💡 Tip: OpenRouter gives you access to all models with one API key"
+        )
+
         choice = click.prompt(
-            "\nSelect provider",
-            type=click.IntRange(1, len(provider_list)),
-            default=1
+            "\nSelect provider", type=click.IntRange(1, len(provider_list)), default=1
         )
         provider = provider_list[choice - 1]
         set_key(ENV_PATH, "HEAL_PROVIDER", provider)
@@ -121,7 +156,9 @@ def ensure_config():
     # Get API key if not configured
     if not api_key:
         click.echo(f"\n🔑 Get your {provider_info['name']} API key here:")
-        click.echo(f"   {click.style(provider_info['api_key_url'], fg='cyan', underline=True)}")
+        click.echo(
+            f"   {click.style(provider_info['api_key_url'], fg='cyan', underline=True)}"
+        )
         click.echo()
         api_key = click.prompt("Enter your API key", type=str).strip()
         set_key(ENV_PATH, "HEAL_API_KEY", api_key)
@@ -129,39 +166,41 @@ def ensure_config():
     # Select model if not configured
     if not model:
         click.echo(f"\n🤖 Select a model from {provider_info['name']}:\n")
-        models = provider_info['models']
+        models = provider_info["models"]
         for i, (model_id, description) in enumerate(models, 1):
             click.echo(f"  {i}. {model_id}")
             click.echo(f"     {click.style(description, fg='bright_black')}")
-        
+
         click.echo(f"\n  {len(models) + 1}. Custom (enter model name manually)")
-        
+
         choice = click.prompt(
-            "\nSelect model",
-            type=click.IntRange(1, len(models) + 1),
-            default=1
+            "\nSelect model", type=click.IntRange(1, len(models) + 1), default=1
         )
-        
+
         if choice <= len(models):
             model = models[choice - 1][0]
         else:
             model = click.prompt("Enter custom model name", type=str).strip()
-        
+
         set_key(ENV_PATH, "HEAL_MODEL", model)
 
     # Set base URL for OpenRouter
     if provider == "openrouter" and not base_url:
-        base_url = provider_info['base_url']
+        base_url = provider_info["base_url"]
         set_key(ENV_PATH, "HEAL_BASE_URL", base_url)
 
     # Ask about anonymization if not configured
     anonymize_setting = os.getenv("HEAL_ANONYMIZE")
     if anonymize_setting is None:
-        click.echo(f"\n🔒 Privacy Settings:\n")
+        click.echo("\n🔒 Privacy Settings:\n")
         click.echo("Would you like to enable automatic data anonymization by default?")
-        click.echo("This will mask emails, phone numbers, API keys, and other sensitive data")
-        click.echo("before sending to the LLM. You can still override with --no-anonymize flag.\n")
-        
+        click.echo(
+            "This will mask emails, phone numbers, API keys, and other sensitive data"
+        )
+        click.echo(
+            "before sending to the LLM. You can still override with --no-anonymize flag.\n"
+        )
+
         if click.confirm("Enable anonymization by default?", default=True):
             set_key(ENV_PATH, "HEAL_ANONYMIZE", "true")
             os.environ["HEAL_ANONYMIZE"] = "true"
@@ -186,13 +225,11 @@ def last_shell_command():
             return cmd_file.read_text().strip()
         except Exception:
             pass
-    
+
     # Fallback to bash history
     try:
         out = subprocess.check_output(
-            ["bash", "-lc", "fc -ln -1"],
-            stderr=subprocess.DEVNULL,
-            text=True
+            ["bash", "-lc", "fc -ln -1"], stderr=subprocess.DEVNULL, text=True
         )
         return out.strip()
     except Exception:
@@ -212,12 +249,12 @@ def get_last_output():
     output_file = CONFIG_DIR / "last_output.txt"
     if output_file.exists():
         return output_file.read_text()
-    
+
     # Fallback to old location for backwards compatibility
     old_output_file = CONFIG_DIR / "last_output.txt"
     if old_output_file.exists():
         return old_output_file.read_text()
-    
+
     return ""
 
 
@@ -225,10 +262,10 @@ def call_llm(model, api_key, prompt, raise_on_error=False):
     """Call the LLM with the given prompt."""
     provider = os.getenv("HEAL_PROVIDER", "openrouter")
     base_url = os.getenv("HEAL_BASE_URL")
-    
+
     # Format model name with provider prefix for litellm
     litellm_model = get_litellm_model_name(provider, model)
-    
+
     # Set API key based on provider - litellm checks these env vars
     if provider == "openrouter":
         os.environ["OPENROUTER_API_KEY"] = api_key
@@ -247,14 +284,14 @@ def call_llm(model, api_key, prompt, raise_on_error=False):
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.2,
         }
-        
+
         if base_url:
             kwargs["api_base"] = base_url
-        
+
         # For OpenRouter, also pass api_key explicitly
         if provider == "openrouter":
             kwargs["api_key"] = api_key
-        
+
         resp = completion(**kwargs)
         return resp.choices[0].message.content
     except Exception as e:
@@ -272,31 +309,53 @@ def main(ctx):
 
 
 @main.command()
-@click.option('--model', help='Override the model')
-@click.option('--api-key', help='Override the API key')
-@click.option('-a', '--anonymize', is_flag=True, help='Anonymize sensitive data before sending to LLM')
-@click.option('--no-anonymize', is_flag=True, help='Disable anonymization (overrides default setting)')
-@click.option('--privacy-check', is_flag=True, help='Check privacy masking availability')
+@click.option("--model", help="Override the model")
+@click.option("--api-key", help="Override the API key")
+@click.option(
+    "-a",
+    "--anonymize",
+    is_flag=True,
+    help="Anonymize sensitive data before sending to LLM",
+)
+@click.option(
+    "--no-anonymize",
+    is_flag=True,
+    help="Disable anonymization (overrides default setting)",
+)
+@click.option(
+    "--privacy-check", is_flag=True, help="Check privacy masking availability"
+)
 def fix(model, api_key, anonymize, no_anonymize, privacy_check):
     """Fix shell errors using LLM."""
     # Check privacy status if requested
     if privacy_check:
         from .privacy import get_privacy_status
+
         status = get_privacy_status()
         click.echo("\n🔒 Privacy Masking Status\n")
         click.echo(f"Active backends: {', '.join(status['backends'])}\n")
         click.echo("Backend availability:")
         click.echo(f"  {'✓' if True else '✗'} builtin_regex       (always available)")
-        click.echo(f"  {'✓' if status['detect_secrets_installed'] else '✗'} detect-secrets      API keys, tokens, private keys")
-        click.echo(f"  {'✓' if status['presidio_installed'] else '✗'} presidio-analyzer   Microsoft PII detection")
-        click.echo(f"  {'✓' if status['priv_masker_installed'] else '✗'} priv-masker         Polish NLP masking")
-        click.echo(f"  {'✓' if status['datafog_installed'] else '✗'} datafog             Lightweight PII detection")
-        click.echo(f"  {'✓' if status['faker_installed'] else '✗'} faker               Fake data generation")
-        if status['install_instructions']:
+        click.echo(
+            f"  {'✓' if status['detect_secrets_installed'] else '✗'} detect-secrets      API keys, tokens, private keys"
+        )
+        click.echo(
+            f"  {'✓' if status['presidio_installed'] else '✗'} presidio-analyzer   Microsoft PII detection"
+        )
+        click.echo(
+            f"  {'✓' if status['priv_masker_installed'] else '✗'} priv-masker         Polish NLP masking"
+        )
+        click.echo(
+            f"  {'✓' if status['datafog_installed'] else '✗'} datafog             Lightweight PII detection"
+        )
+        click.echo(
+            f"  {'✓' if status['faker_installed'] else '✗'} faker               Fake data generation"
+        )
+        if status["install_instructions"]:
             click.echo(f"\n{status['install_instructions']}")
         click.echo()
         return
-    
+
     ensure_config()
 
     if model:
@@ -306,11 +365,16 @@ def fix(model, api_key, anonymize, no_anonymize, privacy_check):
 
     model = os.environ["HEAL_MODEL"]
     api_key = os.environ["HEAL_API_KEY"]
-    
+
     # Determine anonymization setting
     load_dotenv(ENV_PATH)
-    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in ("true", "1", "yes", "on")
-    
+    anonymize_default = os.getenv("HEAL_ANONYMIZE", "").lower() in (
+        "true",
+        "1",
+        "yes",
+        "on",
+    )
+
     # Use explicit flags first, then default setting
     if no_anonymize:
         anonymize = False
@@ -332,16 +396,19 @@ def fix(model, api_key, anonymize, no_anonymize, privacy_check):
     # Anonymize if requested
     if anonymize:
         from .privacy import anonymize_shell_output, get_privacy_status
+
         status = get_privacy_status()
-        
-        if not status['available']:
+
+        if not status["available"]:
             click.echo("⚠️  Privacy masking not fully available.")
             click.echo("   Using basic regex-based masking as fallback.")
-            if status['install_instructions']:
-                click.echo(f"\n   For full privacy protection:\n{status['install_instructions']}\n")
+            if status["install_instructions"]:
+                click.echo(
+                    f"\n   For full privacy protection:\n{status['install_instructions']}\n"
+                )
         else:
             click.echo("🔒 Anonymizing sensitive data...\n")
-        
+
         error_output = anonymize_shell_output(
             error_output,
             enable_privacy=True,
@@ -380,13 +447,13 @@ If there's no obvious error, suggest debugging steps.
 def test():
     """Test heal with a simulated error to verify configuration."""
     click.echo("\n🧪 Testing heal configuration...\n")
-    
+
     # Check if configured
     load_dotenv(ENV_PATH)
     provider = os.getenv("HEAL_PROVIDER")
     model = os.getenv("HEAL_MODEL")
     api_key = os.getenv("HEAL_API_KEY")
-    
+
     if not all([provider, model, api_key]):
         click.echo("❌ Heal is not configured yet.")
         click.echo()
@@ -401,30 +468,30 @@ def test():
         else:
             click.echo("   Run 'heal config' when ready to set up.\n")
             return
-    
+
     provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
     litellm_model = get_litellm_model_name(provider, model)
-    
+
     click.echo(f"✓ Provider: {provider_info['name']}")
     click.echo(f"✓ Model: {model}")
     if litellm_model != model:
         click.echo(f"  (litellm format: {litellm_model})")
-    click.echo(f"✓ API Key: {'*' * 20}{api_key[-4:]}")
+    click.echo(f"✓ API Key: {'*' * CONSTANT_20}{api_key[-CONSTANT_4:]}")
     click.echo()
-    
+
     # Simulate a common error
     simulated_command = "python app.py"
     simulated_error = """Traceback (most recent call last):
   File "app.py", line 3, in <module>
     from flask import Flask
 ModuleNotFoundError: No module named 'flask'"""
-    
+
     click.echo("📝 Simulating error:")
     click.echo(f"   Command: {simulated_command}")
-    click.echo(f"   Error: ModuleNotFoundError: No module named 'flask'")
+    click.echo("   Error: ModuleNotFoundError: No module named 'flask'")
     click.echo()
     click.echo("🤖 Asking LLM for solution...\n")
-    
+
     # Create test prompt
     prompt = f"""You are a CLI assistant that helps fix shell errors.
 
@@ -434,13 +501,13 @@ And got this error:
 {simulated_error}
 
 Provide a brief, practical solution (2-3 sentences max)."""
-    
+
     try:
         response = call_llm(model, api_key, prompt, raise_on_error=True)
         click.echo("💡 LLM Response:")
-        click.echo("─" * 60)
+        click.echo("─" * CONSTANT_60)
         click.echo(response)
-        click.echo("─" * 60)
+        click.echo("─" * CONSTANT_60)
         click.echo()
         click.echo("✅ Test successful! Heal is working correctly.")
         click.echo("   You can now use: command 2>&1 | heal")
@@ -448,8 +515,8 @@ Provide a brief, practical solution (2-3 sentences max)."""
         error_str = str(e)
         click.echo("❌ Test failed!\n")
         click.echo("💡 Error Details:")
-        click.echo("─" * 60)
-        
+        click.echo("─" * CONSTANT_60)
+
         # Check for specific error types
         if "AuthenticationError" in error_str or "401" in error_str:
             click.echo("Authentication failed - your API key appears to be invalid.\n")
@@ -459,16 +526,18 @@ Provide a brief, practical solution (2-3 sentences max)."""
             click.echo("  • Wrong provider selected for this API key")
             click.echo()
             click.echo("Let's reconfigure your settings step by step:\n")
-            
+
             # Ask what to reconfigure
             click.echo("What would you like to do?")
             click.echo("  1. Change provider and API key")
             click.echo("  2. Just update API key (keep current provider)")
             click.echo("  3. Try a different model (keep provider and key)")
             click.echo("  4. Cancel")
-            
-            choice = click.prompt("\nSelect option", type=click.IntRange(1, 4), default=1)
-            
+
+            choice = click.prompt(
+                "\nSelect option", type=click.IntRange(1, CONSTANT_4), default=1
+            )
+
             if choice == 1:
                 # Full reconfiguration
                 click.echo("\n🔧 Full reconfiguration\n")
@@ -476,7 +545,12 @@ Provide a brief, practical solution (2-3 sentences max)."""
                 if ENV_PATH.exists():
                     ENV_PATH.unlink()
                 # Clear env vars
-                for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL"]:
+                for key in [
+                    "HEAL_PROVIDER",
+                    "HEAL_API_KEY",
+                    "HEAL_MODEL",
+                    "HEAL_BASE_URL",
+                ]:
                     os.environ.pop(key, None)
                 ensure_config()
                 click.echo("\n✅ Reconfigured! Try running 'heal test' again.")
@@ -486,28 +560,34 @@ Provide a brief, practical solution (2-3 sentences max)."""
                 provider = os.getenv("HEAL_PROVIDER", "openrouter")
                 provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
                 click.echo(f"Provider: {provider_info['name']}")
-                click.echo(f"Get your API key: {click.style(provider_info['api_key_url'], fg='cyan', underline=True)}\n")
+                click.echo(
+                    f"Get your API key: {click.style(provider_info['api_key_url'], fg='cyan', underline=True)}\n"
+                )
                 new_api_key = click.prompt("Enter your new API key", type=str).strip()
                 set_key(ENV_PATH, "HEAL_API_KEY", new_api_key)
                 os.environ["HEAL_API_KEY"] = new_api_key
                 click.echo("\n✅ API key updated! Try running 'heal test' again.")
-            elif choice == 3:
+            elif choice == CONSTANT_3:
                 # Change model
                 click.echo("\n🤖 Select a different model\n")
                 provider = os.getenv("HEAL_PROVIDER", "openrouter")
                 provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
-                models = provider_info['models']
+                models = provider_info["models"]
                 for i, (model_id, description) in enumerate(models, 1):
                     click.echo(f"  {i}. {model_id}")
                     click.echo(f"     {click.style(description, fg='bright_black')}")
                 click.echo(f"\n  {len(models) + 1}. Custom (enter model name manually)")
-                
-                model_choice = click.prompt("\nSelect model", type=click.IntRange(1, len(models) + 1), default=1)
+
+                model_choice = click.prompt(
+                    "\nSelect model", type=click.IntRange(1, len(models) + 1), default=1
+                )
                 if model_choice <= len(models):
                     new_model = models[model_choice - 1][0]
                 else:
-                    new_model = click.prompt("Enter custom model name", type=str).strip()
-                
+                    new_model = click.prompt(
+                        "Enter custom model name", type=str
+                    ).strip()
+
                 set_key(ENV_PATH, "HEAL_MODEL", new_model)
                 os.environ["HEAL_MODEL"] = new_model
                 click.echo(f"\n✅ Model changed to: {new_model}")
@@ -539,14 +619,21 @@ Provide a brief, practical solution (2-3 sentences max)."""
                 click.echo("  1. Full reconfiguration (provider, API key, model)")
                 click.echo("  2. Just change the model")
                 click.echo("  3. Cancel")
-                
-                choice = click.prompt("\nSelect option", type=click.IntRange(1, 3), default=2)
-                
+
+                choice = click.prompt(
+                    "\nSelect option", type=click.IntRange(1, CONSTANT_3), default=2
+                )
+
                 if choice == 1:
                     # Full reconfiguration
                     if ENV_PATH.exists():
                         ENV_PATH.unlink()
-                    for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL"]:
+                    for key in [
+                        "HEAL_PROVIDER",
+                        "HEAL_API_KEY",
+                        "HEAL_MODEL",
+                        "HEAL_BASE_URL",
+                    ]:
                         os.environ.pop(key, None)
                     ensure_config()
                     click.echo("\n✅ Reconfigured! Try running 'heal test' again.")
@@ -554,25 +641,37 @@ Provide a brief, practical solution (2-3 sentences max)."""
                     # Just change model
                     provider = os.getenv("HEAL_PROVIDER", "openrouter")
                     provider_info = PROVIDERS.get(provider, PROVIDERS["openrouter"])
-                    models = provider_info['models']
-                    click.echo(f"\n🤖 Select a different model from {provider_info['name']}:\n")
+                    models = provider_info["models"]
+                    click.echo(
+                        f"\n🤖 Select a different model from {provider_info['name']}:\n"
+                    )
                     for i, (model_id, description) in enumerate(models, 1):
                         click.echo(f"  {i}. {model_id}")
-                        click.echo(f"     {click.style(description, fg='bright_black')}")
-                    click.echo(f"\n  {len(models) + 1}. Custom (enter model name manually)")
-                    
-                    model_choice = click.prompt("\nSelect model", type=click.IntRange(1, len(models) + 1), default=1)
+                        click.echo(
+                            f"     {click.style(description, fg='bright_black')}"
+                        )
+                    click.echo(
+                        f"\n  {len(models) + 1}. Custom (enter model name manually)"
+                    )
+
+                    model_choice = click.prompt(
+                        "\nSelect model",
+                        type=click.IntRange(1, len(models) + 1),
+                        default=1,
+                    )
                     if model_choice <= len(models):
                         new_model = models[model_choice - 1][0]
                     else:
-                        new_model = click.prompt("Enter custom model name", type=str).strip()
-                    
+                        new_model = click.prompt(
+                            "Enter custom model name", type=str
+                        ).strip()
+
                     set_key(ENV_PATH, "HEAL_MODEL", new_model)
                     os.environ["HEAL_MODEL"] = new_model
                     click.echo(f"\n✅ Model changed to: {new_model}")
                     click.echo("Try running 'heal test' again.")
-        
-        click.echo("─" * 60)
+
+        click.echo("─" * CONSTANT_60)
 
 
 @main.command()
@@ -580,9 +679,9 @@ def init():
     """Initialize bash integration for automatic command capture."""
     shell_hook_path = CONFIG_DIR / "heal.bash"
     bashrc_path = Path.home() / ".bashrc"
-    
+
     # Create improved shell hook with buffer
-    hook_content = '''# Heal shell integration for automatic command and output capture
+    hook_content = """# Heal shell integration for automatic command and output capture
 # This captures the last command and its output for easy error fixing
 
 export HEAL_DIR="$HOME/.heal"
@@ -641,43 +740,43 @@ heal-output() {
         echo "No output captured yet"
     fi
 }
-'''
-    
+"""
+
     CONFIG_DIR.mkdir(exist_ok=True)
     shell_hook_path.write_text(hook_content)
-    
+
     click.echo("\n✅ Heal bash integration created!\n")
     click.echo(f"📄 Hook file: {shell_hook_path}\n")
-    
+
     # Check if already in bashrc
     source_line = f"source {shell_hook_path}"
     already_installed = False
-    
+
     if bashrc_path.exists():
         bashrc_content = bashrc_path.read_text()
         if str(shell_hook_path) in bashrc_content or "heal.bash" in bashrc_content:
             already_installed = True
-    
+
     if already_installed:
         click.echo("ℹ️  Already installed in ~/.bashrc")
     else:
         click.echo("📝 To activate, add this line to your ~/.bashrc:")
         click.echo(f"   {click.style(source_line, fg='cyan')}")
         click.echo()
-        
+
         if click.confirm("   Add to ~/.bashrc automatically?", default=True):
             try:
-                with open(bashrc_path, 'a') as f:
-                    f.write(f"\n# Heal - LLM-powered error fixing\n")
+                with open(bashrc_path, "a") as f:
+                    f.write("\n# Heal - LLM-powered error fixing\n")
                     f.write(f"{source_line}\n")
                 click.echo("   ✅ Added to ~/.bashrc")
             except Exception as e:
                 click.echo(f"   ❌ Failed to update ~/.bashrc: {e}")
                 click.echo(f"   Please add manually: {source_line}")
-    
+
     click.echo()
     click.echo("🔄 To activate now, run:")
-    click.echo(f"   source ~/.bashrc")
+    click.echo("   source ~/.bashrc")
     click.echo()
     click.echo("📚 Usage after activation:")
     click.echo("   1. Run any command (it will be captured automatically)")
@@ -693,9 +792,10 @@ heal-output() {
 def install():
     """Install shell hook for automatic error capture (legacy, use 'heal init' instead)."""
     click.echo("ℹ️  Note: 'heal install' is deprecated. Use 'heal init' instead.\n")
-    
+
     # Call init instead
     from click.testing import CliRunner
+
     runner = CliRunner()
     result = runner.invoke(init)
     click.echo(result.output)
@@ -705,39 +805,49 @@ def install():
 def config():
     """Configure or reconfigure heal settings (provider, API key, model)."""
     CONFIG_DIR.mkdir(exist_ok=True)
-    
+
     if not ENV_PATH.exists():
         ENV_PATH.touch()
-    
+
     load_dotenv(ENV_PATH)
-    
+
     click.echo("\n⚙️  Heal Configuration\n")
-    
+
     # Show current configuration
     current_provider = os.getenv("HEAL_PROVIDER")
     current_model = os.getenv("HEAL_MODEL")
     current_anonymize = os.getenv("HEAL_ANONYMIZE")
-    
+
     if current_provider and current_model:
-        click.echo(f"Current settings:")
-        click.echo(f"  Provider: {PROVIDERS.get(current_provider, {}).get('name', current_provider)}")
+        click.echo("Current settings:")
+        click.echo(
+            f"  Provider: {PROVIDERS.get(current_provider, {}).get('name', current_provider)}"
+        )
         click.echo(f"  Model: {current_model}")
         if current_anonymize:
             anonymize_enabled = current_anonymize.lower() in ("true", "1", "yes", "on")
-            click.echo(f"  Anonymization: {'enabled' if anonymize_enabled else 'disabled'}")
+            click.echo(
+                f"  Anonymization: {'enabled' if anonymize_enabled else 'disabled'}"
+            )
         click.echo()
-        
+
         if not click.confirm("Do you want to reconfigure?", default=False):
             return
-    
+
     # Clear existing configuration
-    for key in ["HEAL_PROVIDER", "HEAL_API_KEY", "HEAL_MODEL", "HEAL_BASE_URL", "HEAL_ANONYMIZE"]:
+    for key in [
+        "HEAL_PROVIDER",
+        "HEAL_API_KEY",
+        "HEAL_MODEL",
+        "HEAL_BASE_URL",
+        "HEAL_ANONYMIZE",
+    ]:
         if os.getenv(key):
             os.environ.pop(key, None)
-    
+
     # Run configuration
     ensure_config()
-    
+
     click.echo("\n✅ Configuration saved successfully!")
     click.echo(f"   Config file: {ENV_PATH}")
 
@@ -747,15 +857,15 @@ def uninstall():
     """Remove shell hook and configuration."""
     shell_hook_path = CONFIG_DIR / "heal.bash"
     output_file = CONFIG_DIR / "last_output.txt"
-    
+
     if shell_hook_path.exists():
         shell_hook_path.unlink()
         click.echo("Shell hook removed.")
-    
+
     if output_file.exists():
         output_file.unlink()
         click.echo("Output cache cleared.")
-    
+
     click.echo("Remember to remove the source line from your ~/.bashrc")
 
 

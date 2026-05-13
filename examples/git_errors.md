@@ -2,8 +2,6 @@
 
 Real-world Git errors and how `heal` helps fix them.
 
-## Example 1: Merge Conflict
-
 ### Error
 ```bash
 $ git merge feature-branch
@@ -54,8 +52,6 @@ Git encountered conflicts while merging that need manual resolution.
    ```
 ```
 
-## Example 2: Push Rejected - Non-Fast-Forward
-
 ### Error
 ```bash
 $ git push origin main
@@ -103,8 +99,6 @@ Your local branch is behind the remote branch. Someone else pushed changes.
    ```
 ```
 
-## Example 3: Authentication Failed
-
 ### Error
 ```bash
 $ git push origin main
@@ -151,8 +145,6 @@ GitHub no longer accepts password authentication. You need a Personal Access Tok
    git config --global credential.helper store
    ```
 ```
-
-## Example 4: Detached HEAD State
 
 ### Error
 ```bash
@@ -202,8 +194,6 @@ You're in detached HEAD state - not on any branch.
    ```
 ```
 
-## Example 5: Cannot Pull - Uncommitted Changes
-
 ### Error
 ```bash
 $ git pull origin main
@@ -249,8 +239,6 @@ You have uncommitted changes that conflict with incoming changes.
    git pull --rebase --autostash origin main
    ```
 ```
-
-## Example 6: Large File Error
 
 ### Error
 ```bash
@@ -305,8 +293,6 @@ You're trying to push a file larger than GitHub's 100MB limit.
    ```
 ```
 
-## Example 7: Rebase Conflicts
-
 ### Error
 ```bash
 $ git rebase main
@@ -354,8 +340,6 @@ Git encountered conflicts during rebase that need manual resolution.
    git rebase --continue
    ```
 ```
-
-## Example 8: Branch Already Exists
 
 ### Error
 ```bash

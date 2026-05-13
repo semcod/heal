@@ -1,0 +1,40 @@
+# heal | 30 func | 3f | 1974L | python | 2026-04-19
+
+HEALTH:
+  CC̄=5.4  critical=3 (limit:10)  dup=0  cycles=0
+
+ALERTS[8]:
+  !!! high_fan_out     test = 22 (limit:10)
+  !!  cc_exceeded      test = 24 (limit:15)
+  !!  high_fan_out     ensure_config = 18 (limit:10)
+  !!  high_fan_out     fix = 15 (limit:10)
+  !   cc_exceeded      fix = 18 (limit:15)
+  !   high_fan_out     config = 13 (limit:10)
+  !   high_fan_out     PrivacyMasker._detect_secrets_scan = 12 (limit:10)
+  !   high_fan_out     init = 12 (limit:10)
+
+MODULES[6] (top by size):
+  M[heal/cli.py] 793L C:0 F:13 CC↑24 D:0 (python)
+  M[heal/privacy.py] 385L C:1 F:12 CC↑9 D:1 (python)
+  M[heal/main.py] 54L C:1 F:5 CC↑1 D:0 (python)
+  M[heal/__init__.py] 19L C:0 F:0 CC↑0 D:0 (python)
+  M[setup.py] 8L C:0 F:0 CC↑0 D:0 (python)
+  M[project.sh] 2L C:0 F:0 CC↑0 D:0 (shell)
+  LANGS: python:5/shell:1
+
+HOTSPOTS[6]:
+  ★ test fan=22  // Test heal with a simulated error to verify configuration.
+  ★ ensure_config fan=18  // Ensure configuration exists and prompt for missing values.
+  ★ fix fan=15  // Fix shell errors using LLM.
+  ★ config fan=13  // Configure or reconfigure heal settings (provider, API key, model).
+  ★ PrivacyMasker._detect_secrets_scan fan=12  // Use detect-secrets to find and mask additional secrets.
+
+REFACTOR[6]:
+  [1] H/H Split god module heal/cli.py (793L, 0 classes)
+  [2] M/L Split fix (CC=18)
+  [3] M/L Split test (CC=24)
+  [4] M/M Reduce test fan-out (currently 22)
+  [5] M/M Reduce ensure_config fan-out (currently 18)
+
+EVOLUTION:
+  2026-04-19 CC̄=5.4 crit=3 1974L // Automated analysis

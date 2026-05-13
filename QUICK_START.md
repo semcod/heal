@@ -8,8 +8,6 @@ Get started with heal in 5 minutes! 🚀
 pip install heal
 ```
 
-## Setup (3 steps)
-
 ### 1. Configure
 
 ```bash
@@ -33,8 +31,6 @@ heal init
 ```
 
 Enable automatic command capture
-
-## Usage
 
 ### After `heal init`
 

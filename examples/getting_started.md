@@ -8,8 +8,6 @@ Complete guide to setting up and using heal for the first time.
 pip install heal
 ```
 
-## Step-by-Step Setup
-
 ### Step 1: Configure Your Provider
 
 Run the configuration wizard:
@@ -59,7 +57,7 @@ Choose from popular models:
 ```
 🤖 Select a model from OpenRouter:
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -92,7 +90,7 @@ You'll see:
 🧪 Testing heal configuration...
 
 ✓ Provider: OpenRouter
-✓ Model: openai/gpt-4o-mini
+✓ Model: openai/gpt-5.4-mini
 ✓ API Key: ********************abc1
 
 📝 Simulating error:
@@ -156,8 +154,6 @@ Press `y` to automatically add to your `.bashrc`.
 source ~/.bashrc
 ```
 
-## Usage Examples
-
 ### Basic Usage (Without Init)
 
 Pipe errors directly to heal:
@@ -185,15 +181,6 @@ Heal will automatically see the last command and its output!
 Check what was captured:
 
 ```bash
-# Show last command
-heal-last
-
-# Show last output
-heal-output
-```
-
-## Common Workflows
-
 ### Debugging Python Errors
 
 ```bash
@@ -221,8 +208,6 @@ heal
 git merge feature-branch
 heal
 ```
-
-## Tips & Tricks
 
 ### 1. Use heal test Regularly
 
@@ -264,8 +249,6 @@ Copy heal's suggestions to a file:
 ```bash
 heal > solution.txt
 ```
-
-## Troubleshooting
 
 ### "heal: command not found"
 
@@ -322,9 +305,6 @@ Or run `heal init` if you haven't yet.
 - Check [Examples](README.md) for real-world error scenarios
 - See [TODO.md](../TODO.md) for upcoming features
 
-## Quick Reference
-
-```bash
 # Setup
 heal config          # Configure provider and model
 heal test           # Test configuration

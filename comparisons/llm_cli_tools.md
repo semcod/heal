@@ -1,5 +1,3 @@
-# LLM CLI Tools Comparison
-
 ## heal vs Other LLM-Powered CLI Tools
 
 | Feature | heal | aichat | sgpt | llm (simonw) |
@@ -78,8 +76,6 @@
 
 **Best for:** Power users who want extensible LLM access with plugins.
 
-## Key Differences
-
 ### heal's unique value proposition:
 
 1. **Error-focused workflow** — not a general chat tool, but a dedicated error fixer
@@ -88,9 +84,6 @@
 4. **Bash integration** — automatic command capture, no manual piping needed
 5. **Interactive recovery** — guides you step-by-step when config fails
 
-### When heal + another tool makes sense:
-
-```bash
 # Use sgpt to generate a command
 sgpt "create a docker compose file for postgres + redis"
 

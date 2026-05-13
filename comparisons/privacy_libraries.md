@@ -1,5 +1,3 @@
-# Privacy & Anonymization Libraries Comparison
-
 ## Overview
 
 | Feature | heal (built-in) | detect-secrets | presidio | priv-masker | datafog | faker |
@@ -139,12 +137,6 @@ Shell output
 - No secrets handling
 
 **In heal:** Can generate realistic fake data replacements instead of `[PLACEHOLDER]` tags.
-
-## Quick Install Guide
-
-```bash
-# Minimal (built-in regex only, always works)
-pip install heal
 
 # + Secret scanning
 pip install heal detect-secrets

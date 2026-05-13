@@ -6,8 +6,6 @@ How heal helps you fix configuration problems interactively.
 
 When `heal test` encounters an error, it doesn't just show you an error message - it guides you through fixing it step by step.
 
-## Authentication Errors
-
 ### Scenario: Invalid API Key
 
 ```bash
@@ -75,7 +73,7 @@ Enter your API key: sk-or-v1-xxxxxxxxxxxxx
 
 🤖 Select a model from OpenRouter:
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -114,7 +112,7 @@ Select option [1]: 3
 
 🤖 Select a different model
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -186,7 +184,7 @@ Select option [2]: 2
 
 🤖 Select a different model from OpenRouter:
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -194,7 +192,7 @@ Select option [2]: 2
 
 Select model [1]: 1
 
-✅ Model changed to: openai/gpt-4o-mini
+✅ Model changed to: openai/gpt-5.4-mini
 Try running 'heal test' again.
 ```
 
@@ -259,8 +257,6 @@ Quota/Credits?
 └─ Add credits to your account
 ```
 
-## Best Practices
-
 ### 1. Start with the Least Disruptive Option
 
 - Try changing the model first (Option 3 or 2)
@@ -283,7 +279,7 @@ Always run `heal test` after reconfiguring to verify it works.
 
 When trying different models, start with free options:
 - `arcee-ai/trinity-large-preview:free` (OpenRouter)
-- `gpt-4o-mini` (cheap on OpenAI/OpenRouter)
+- `gpt-5.4-mini` (cheap on OpenAI/OpenRouter)
 
 ### 5. Document Your Working Configuration
 
@@ -291,61 +287,22 @@ Once you find a working setup, save it:
 
 ```bash
 cat ~/.heal/.env
-# Copy this somewhere safe
-```
-
-## Common Scenarios
-
-### Scenario 1: Trying Heal for the First Time
-
-```bash
-heal test
-# Not configured yet
-# Choose: Yes, configure now
-# Select: OpenRouter (option 1)
-# Get free API key from openrouter.ai
 # Select: arcee-ai/trinity-large-preview:free (free model)
 heal test  # Verify it works
 ```
 
-### Scenario 2: API Key Expired
-
-```bash
-heal test
-# Authentication error
-# Choose: Option 2 (Just update API key)
 # Enter new API key
 heal test  # Verify it works
 ```
 
-### Scenario 3: Model Not Available
-
-```bash
-heal test
-# Error about model
-# Choose: Option 3 (Try different model)
 # Select a different model from the list
 heal test  # Verify it works
 ```
 
-### Scenario 4: Switching Providers
-
-```bash
-heal test
-# Want to switch from OpenAI to OpenRouter
-# Choose: Option 1 (Change provider and API key)
-# Select: OpenRouter
-# Enter OpenRouter API key
 # Select model
 heal test  # Verify it works
 ```
 
-### Scenario 5: Out of Credits
-
-```bash
-heal test
-# Quota exceeded error
-# Go to provider's website and add credits
 # No reconfiguration needed
 heal test  # Should work after adding credits
 ```
@@ -355,16 +312,6 @@ heal test  # Should work after adding credits
 If you prefer to configure manually:
 
 ```bash
-# Edit the config file directly
-nano ~/.heal/.env
-
-# Or use heal config
-heal config
-
-# Then test
-heal test
-```
-
 ## Getting Help
 
 If interactive recovery doesn't work:

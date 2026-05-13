@@ -45,7 +45,7 @@ Enter your API key: sk-or-v1-xxxxxxxxxxxxx
 ```bash
 🤖 Select a model from OpenRouter:
 
-  1. openai/gpt-4o-mini
+  1. openai/gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. openai/gpt-4o
      GPT-4o (most capable)
@@ -63,7 +63,7 @@ Select model [1]: 1
 ```
 
 **Model recommendations:**
-- **Option 1** (gpt-4o-mini) - Best for most users, fast and cheap
+- **Option 1** (gpt-5.4-mini) - Best for most users, fast and cheap
 - **Option 2** (gpt-4o) - Most capable, use for complex errors
 - **Option 3** (claude-3.5-sonnet) - Excellent for code analysis
 - **Option 7** (Custom) - Enter any model from [openrouter.ai/models](https://openrouter.ai/models)
@@ -78,8 +78,6 @@ python broken_script.py 2>&1 | heal
 ```
 
 ---
-
-## Alternative Providers
 
 ### OpenAI Setup
 
@@ -105,7 +103,7 @@ Enter your API key: sk-xxxxxxxxxxxxx
 
 🤖 Select a model from OpenAI:
 
-  1. gpt-4o-mini
+  1. gpt-5.4-mini
      GPT-4o Mini (fast, cheap, recommended)
   2. gpt-4o
      GPT-4o (most capable)
@@ -210,7 +208,7 @@ This will show your current configuration and ask if you want to change it:
 
 Current settings:
   Provider: OpenRouter
-  Model: openai/gpt-4o-mini
+  Model: openai/gpt-5.4-mini
 
 Do you want to reconfigure? [y/N]: y
 ```
@@ -225,7 +223,7 @@ You can also edit `~/.heal/.env` directly:
 ```bash
 HEAL_PROVIDER=openrouter
 HEAL_API_KEY=sk-or-v1-xxxxxxxxxxxxx
-HEAL_MODEL=openai/gpt-4o-mini
+HEAL_MODEL=openai/gpt-5.4-mini
 HEAL_BASE_URL=https://openrouter.ai/api/v1
 ```
 
@@ -233,7 +231,7 @@ HEAL_BASE_URL=https://openrouter.ai/api/v1
 ```bash
 HEAL_PROVIDER=openai
 HEAL_API_KEY=sk-xxxxxxxxxxxxx
-HEAL_MODEL=gpt-4o-mini
+HEAL_MODEL=gpt-5.4-mini
 ```
 
 ### Anthropic
@@ -251,8 +249,6 @@ HEAL_MODEL=gemini-pro
 ```
 
 ---
-
-## Troubleshooting
 
 ### "Error calling LLM: ..."
 
@@ -286,7 +282,7 @@ Edit `~/.heal/.env` and change just the `HEAL_MODEL` line:
 
 ```bash
 # Before
-HEAL_MODEL=openai/gpt-4o-mini
+HEAL_MODEL=openai/gpt-5.4-mini
 
 # After
 HEAL_MODEL=anthropic/claude-3.5-sonnet
@@ -294,11 +290,9 @@ HEAL_MODEL=anthropic/claude-3.5-sonnet
 
 ---
 
-## Cost Optimization
-
 ### Cheapest Options
 
-1. **OpenRouter + gpt-4o-mini** - ~$0.15 per 1M tokens
+1. **OpenRouter + gpt-5.4-mini** - ~$0.15 per 1M tokens
 2. **OpenRouter + claude-3-haiku** - ~$0.25 per 1M tokens
 3. **OpenRouter + llama-3.1-70b** - ~$0.50 per 1M tokens (open source)
 
@@ -310,7 +304,7 @@ HEAL_MODEL=anthropic/claude-3.5-sonnet
 
 ### Best Value
 
-**OpenRouter + gpt-4o-mini** (recommended) - Excellent quality at low cost
+**OpenRouter + gpt-5.4-mini** (recommended) - Excellent quality at low cost
 
 ---
 

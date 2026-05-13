@@ -14,8 +14,6 @@ When using heal to fix errors, your shell output may contain sensitive informati
 
 The `--anonymize` flag masks this data before sending it to the LLM provider.
 
-## Installation
-
 ### Basic Installation (Regex-based masking)
 
 Heal includes basic regex-based masking by default:
@@ -47,8 +45,6 @@ This provides advanced masking for:
 - Contact information
 - ID numbers
 - Monetary amounts
-
-## Usage
 
 ### Basic Usage
 
@@ -95,8 +91,6 @@ Privacy masking not available. Install with:
     pip install heal[privacy]
     python -m spacy download pl_nask-0.0.5
 ```
-
-## Examples
 
 ### Example 1: Masking Email in Error Output
 
@@ -178,8 +172,6 @@ Error: Authentication failed for user [EMAIL]
 
 Note: Passwords in connection strings are NOT automatically masked. Be careful with connection strings!
 
-## What Gets Masked
-
 ### With Basic Masking (Default)
 
 | Type | Pattern | Replacement |
@@ -220,11 +212,6 @@ error_output = anonymize_shell_output(
 )
 ```
 
-## Best Practices
-
-### 1. Always Use for Production Data
-
-```bash
 # Production errors - always anonymize
 production_script.py 2>&1 | heal --anonymize
 ```
@@ -266,8 +253,6 @@ Anonymization is NOT perfect. Always review:
 - **Connection strings** - may contain passwords
 - **API keys** - not automatically detected
 - **Custom sensitive data** - domain-specific secrets
-
-## Security Considerations
 
 ### What Anonymization Does
 
@@ -314,8 +299,6 @@ For maximum security:
    heal config
    # Select a local/on-premise LLM
    ```
-
-## Troubleshooting
 
 ### "Privacy masking not available"
 
@@ -393,22 +376,12 @@ Always check your organization's data handling policies.
 For maximum privacy, use a local LLM provider:
 
 ```bash
-# Configure with local provider
-heal config
-# Select: Local LLM / On-premise provider
-
 # No data leaves your machine
 your_command 2>&1 | heal
 ```
 
-## Quick Reference
-
-```bash
 # Check privacy status
 heal fix --privacy-check
-
-# Use anonymization
-heal --anonymize
 
 # With bash integration
 your_command

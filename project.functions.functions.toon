@@ -1,0 +1,130 @@
+project: heal
+generated: "2026-02-24T14:58:32.792345"
+modules[10]{path,lang,items}:
+  setup.py,python,0
+  heal/cli.py,python,13
+  heal/__init__.py,python,0
+  heal/main.py,python,5
+  heal/privacy.py,python,12
+  tests/test_heal.py,python,2
+  tests/__init__.py,python,0
+  tests/test_privacy.py,python,57
+  tests/test_main.py,python,5
+  tests/test_cli.py,python,7
+
+function_details:
+  heal/cli.py:
+    functions[13]{name,kind,sig,loc,async,lines,cc,does}:
+      get_litellm_model_name,function,"(provider, model)",71-81,false,11,3,Convert model name to litellm format with provider prefix if needed.
+      ensure_config,function,(),84-177,false,94,14,Ensure configuration exists and prompt for missing values.
+      last_shell_command,function,(),180-199,false,20,4,Get the last shell command from buffer or history.
+      read_stdin,function,(),202-206,false,5,2,Read from stdin if not a TTY.
+      get_last_output,function,(),209-221,false,13,3,Read the last captured output from shell hook.
+      call_llm,function,"(model, api_key, prompt, raise_on_error=False)",224-263,false,40,8,Call the LLM with the given prompt.
+      main,function,(ctx),268-271,false,4,2,Heal - LLM-powered shell error fixing.
+      fix,function,"(model, api_key, anonymize, no_anonymize, privacy_check)",280-376,false,97,18,Fix shell errors using LLM.
+      test,function,(),380-575,false,196,24,Test heal with a simulated error to verify configuration.
+      init,function,(),579-689,false,111,7,Initialize bash integration for automatic command capture.
+      install,function,(),693-701,false,9,1,"Install shell hook for automatic error capture (legacy, use 'heal init' instead)..."
+      config,function,(),705-742,false,38,9,"Configure or reconfigure heal settings (provider, API key, model)."
+      uninstall,function,(),746-759,false,14,3,Remove shell hook and configuration.
+  heal/main.py:
+    functions[5]{name,kind,sig,loc,async,lines,cc,does}:
+      hello,function,(),7-14,false,8,1,Return a greeting message.
+      get_version,function,(),16-24,false,9,1,Get the current version of the heal package.
+      ShellHealer.__init__,method,(name='ShellHealer'),31-38,false,8,1,Initialize the ShellHealer.
+      ShellHealer.heal,method,"(command, error_output)",40-51,false,12,1,Analyze and provide healing suggestions for shell errors.
+      ShellHealer.__str__,method,(),53-54,false,2,1,str
+  heal/privacy.py:
+    functions[12]{name,kind,sig,loc,async,lines,cc,does}:
+      anonymize_shell_output,function,"(output:str, enable_privacy:bool=False) -> str",351-369,false,19,2,Anonymize shell output before sending to LLM.
+      get_privacy_status,function,"() -> Dict[str, Any]",372-385,false,14,2,Return a dict describing which backends are available.
+      PrivacyMasker.__init__,method,"(language:str='pl', use_faker:bool=False)",122-145,false,24,8,creates
+      PrivacyMasker.is_available,method,() -> bool,151-153,false,3,1,Return True - built-in regex backend is always available.
+      PrivacyMasker.available_backends,method,"() -> List[str]",155-168,false,14,7,Return list of available backend names.
+      PrivacyMasker.get_install_instructions,method,() -> str,171-187,false,17,7,Return install hints for missing backends.
+      PrivacyMasker.anonymize,method,"(text:str, mask_secrets:bool=True, mask_pii:bool=True, mask_names:bool=True, mask_dates:bool=False, mask_contacts:bool=True, mask_addresses:bool=True) -> str",193-241,false,49,8,Run all available backends to anonymize *text*.
+      PrivacyMasker._mask_secrets,method,"(text:str) -> str",248-253,false,6,2,Mask secrets / credentials using built-in regex patterns.
+      PrivacyMasker._mask_pii,method,"(text:str, mask_contacts:bool=True, mask_ids:bool=True) -> str",256-265,false,10,6,Mask PII using built-in regex patterns.
+      PrivacyMasker._detect_secrets_scan,method,"(text:str) -> str",272-298,false,27,9,Use detect-secrets to find and mask additional secrets.
+      PrivacyMasker._presidio_scan,method,"(text:str) -> str",304-322,false,19,4,Use presidio-analyzer to detect and mask PII entities.
+      PrivacyMasker._priv_masker_scan,method,"(text:str) -> str",328-344,false,17,3,Use priv-masker with Polish SpaCy model.
+  tests/test_heal.py:
+    functions[2]{name,kind,sig,loc,async,lines,cc,does}:
+      test_placeholder,function,(),4-6,false,3,1,Placeholder test to verify the test setup works.
+      test_import,function,(),9-11,false,3,1,Verify the main package can be imported.
+  tests/test_privacy.py:
+    functions[57]{name,kind,sig,loc,async,lines,cc,does}:
+      TestEmailMasking.test_simple_email,method,(),29-33,false,5,1,checks simple email
+      TestEmailMasking.test_multiple_emails,method,(),35-41,false,7,1,checks multiple emails
+      TestEmailMasking.test_email_with_plus,method,(),43-46,false,4,1,checks email with plus
+      TestEmailMasking.test_email_with_dots,method,(),48-51,false,4,1,checks email with dots
+      TestEmailMasking.test_no_email,method,(),53-58,false,6,1,checks no email
+      TestPhoneMasking.test_polish_phone,method,(),66-70,false,5,1,checks polish phone
+      TestPhoneMasking.test_polish_phone_no_prefix,method,(),72-75,false,4,1,checks polish phone no prefix
+      TestPhoneMasking.test_us_phone,method,(),77-80,false,4,1,checks us phone
+      TestPhoneMasking.test_phone_with_dashes,method,(),82-85,false,4,1,checks phone with dashes
+      TestIDMasking.test_pesel,method,(),93-97,false,5,1,checks pesel
+      TestIDMasking.test_credit_card,method,(),99-103,false,5,1,checks credit card
+      TestIDMasking.test_credit_card_no_spaces,method,(),105-108,false,4,1,checks credit card no spaces
+      TestIDMasking.test_ssn,method,(),110-114,false,5,1,checks ssn
+      TestIPMasking.test_ipv4,method,(),122-126,false,5,1,checks ipv4
+      TestIPMasking.test_localhost,method,(),128-131,false,4,1,checks localhost
+      TestSecretMasking.test_aws_key,method,(),139-143,false,5,1,checks aws key
+      TestSecretMasking.test_github_token,method,(),145-148,false,4,1,checks github token
+      TestSecretMasking.test_bearer_token,method,(),150-153,false,4,2,checks bearer token
+      TestSecretMasking.test_private_key_pem,method,(),155-160,false,6,1,checks private key pem
+      TestSecretMasking.test_jwt_token,method,(),162-166,false,5,1,checks jwt token
+      TestSecretMasking.test_ssh_key,method,(),168-172,false,5,1,checks ssh key
+      TestSecretMasking.test_generic_api_key,method,(),174-177,false,4,1,checks generic api key
+      TestSecretMasking.test_password_in_env,method,(),179-183,false,5,1,checks password in env
+      TestSecretMasking.test_db_connection_string,method,(),185-189,false,5,1,checks db connection string
+      TestSecretMasking.test_mysql_connection,method,(),191-194,false,4,1,checks mysql connection
+      TestSecretMasking.test_redis_connection,method,(),196-199,false,4,1,checks redis connection
+      TestRealisticScenarios.test_python_error_with_email,method,(),207-217,false,11,1,checks python error with email
+      TestRealisticScenarios.test_docker_error_with_ip,method,(),219-227,false,9,1,checks docker error with ip
+      TestRealisticScenarios.test_git_error_with_token,method,(),229-234,false,6,1,checks git error with token
+      TestRealisticScenarios.test_env_file_leak,method,(),236-245,false,10,1,checks env file leak
+      TestRealisticScenarios.test_shell_log_with_mixed_pii,method,(),247-255,false,9,1,checks shell log with mixed pii
+      TestSelectiveMasking.test_disable_contacts,method,(),263-270,false,8,1,checks disable contacts
+      TestSelectiveMasking.test_disable_ids,method,(),272-277,false,6,1,checks disable ids
+      TestSelectiveMasking.test_disable_secrets,method,(),279-285,false,7,1,checks disable secrets
+      TestSelectiveMasking.test_disable_all_pii,method,(),287-291,false,5,1,checks disable all pii
+      TestEdgeCases.test_empty_text,method,(),299-301,false,3,1,checks empty text
+      TestEdgeCases.test_no_sensitive_data,method,(),303-307,false,5,1,checks no sensitive data
+      TestEdgeCases.test_whitespace_only,method,(),309-311,false,3,1,checks whitespace only
+      TestEdgeCases.test_unicode_text,method,(),313-318,false,6,1,checks unicode text
+      TestEdgeCases.test_very_long_text,method,(),320-324,false,5,1,checks very long text
+      TestEdgeCases.test_multiple_same_email,method,(),326-331,false,6,1,checks multiple same email
+      TestPrivacyMaskerAPI.test_is_available,method,(),339-341,false,3,1,checks is available
+      TestPrivacyMaskerAPI.test_available_backends_always_has_builtin,method,(),343-347,false,5,1,checks available backends always has builtin
+      TestPrivacyMaskerAPI.test_get_install_instructions_is_string,method,(),349-351,false,3,1,checks get install instructions is string
+      TestPrivacyMaskerAPI.test_init_default_language,method,(),353-355,false,3,1,checks init default language
+      TestPrivacyMaskerAPI.test_init_custom_language,method,(),357-359,false,3,1,checks init custom language
+      TestPrivacyMaskerAPI.test_init_faker_disabled_by_default,method,(),361-363,false,3,1,checks init faker disabled by default
+      TestModuleFunctions.test_anonymize_shell_output_disabled,method,(),371-374,false,4,1,checks anonymize shell output disabled
+      TestModuleFunctions.test_anonymize_shell_output_enabled,method,(),376-380,false,5,1,checks anonymize shell output enabled
+      TestModuleFunctions.test_anonymize_shell_output_with_options,method,(),382-388,false,7,1,checks anonymize shell output with options
+      TestModuleFunctions.test_get_privacy_status_keys,method,(),390-399,false,10,1,checks get privacy status keys
+      TestModuleFunctions.test_get_privacy_status_available_is_true,method,(),401-403,false,3,1,checks get privacy status available is true
+      TestModuleFunctions.test_get_privacy_status_backends_list,method,(),405-408,false,4,1,checks get privacy status backends list
+      TestStaticMethods.test_mask_secrets_static,method,(),416-418,false,3,1,checks mask secrets static
+      TestStaticMethods.test_mask_pii_static,method,(),420-422,false,3,1,checks mask pii static
+      TestStaticMethods.test_mask_pii_contacts_disabled,method,(),424-426,false,3,1,checks mask pii contacts disabled
+      TestStaticMethods.test_mask_pii_ids_disabled,method,(),428-430,false,3,1,checks mask pii ids disabled
+  tests/test_main.py:
+    functions[5]{name,kind,sig,loc,async,lines,cc,does}:
+      test_hello,function,(),9-14,false,6,1,Test hello function.
+      test_get_version,function,(),17-21,false,5,1,Test get_version function.
+      test_shell_healer_init,function,(),24-30,false,7,1,Test ShellHealer initialization.
+      test_shell_healer_heal,function,(),33-42,false,10,1,Test ShellHealer heal method.
+      test_shell_healer_str,function,(),45-49,false,5,1,Test ShellHealer string representation.
+  tests/test_cli.py:
+    functions[7]{name,kind,sig,loc,async,lines,cc,does}:
+      test_main_help,function,(),12-17,false,6,1,Test main help command.
+      test_fix_command_no_input,function,(),20-31,false,12,1,Test fix command with no input.
+      test_fix_command_with_input,function,"(mock_llm, mock_stdin, mock_cmd, mock_config)",38-50,false,13,1,Test fix command with input.
+      test_install_command,function,(),53-62,false,10,2,Test install command (now redirects to init).
+      test_uninstall_command,function,(),65-73,false,9,1,Test uninstall command.
+      test_last_shell_command,function,(),76-79,false,4,1,Test last_shell_command function.
+      test_read_stdin,function,(),82-87,false,6,1,Test read_stdin function.
