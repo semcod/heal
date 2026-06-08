@@ -1,0 +1,171 @@
+// LESS format — define @variables here as needed
+
+app {
+  name: heal;
+  version: 0.1.24;
+  description: "A Python package for healing and wellness";
+  license: Apache-2.0;
+  authors: "Tom Sapletta <tom@sapletta.com>";
+  keywords: "health, wellness, healing, llm, shell, fix";
+  homepage: https://github.com/yourusername/heal;
+  repository: https://github.com/yourusername/heal;
+}
+
+dependencies {
+  runtime: "litellm>=1.0.0, python-dotenv>=1.0.0, click>=8.0.0";
+  dev: "pytest>=7.0.0, pytest-cov>=4.0.0, black>=23.0.0, isort>=5.0.0, flake8>=6.0.0, mypy>=1.0.0, build>=0.10.0, twine>=4.0.0";
+  privacy: "priv-masker>=0.1.0, spacy>=3.0.0, detect-secrets>=1.4.0, presidio-analyzer>=2.2.0, datafog>=0.1.0, faker>=18.0.0";
+}
+
+interface[type="api"] {
+  type: rest;
+  framework: flask;
+}
+
+interface[type="cli"] {
+  framework: click;
+}
+interface[type="cli"] page[name="heal"] {
+  entry: heal.cli:main;
+}
+
+workflow[name="install"] {
+  trigger: manual;
+  step-1: run cmd=pip install .;
+}
+
+workflow[name="install-dev"] {
+  trigger: manual;
+  step-1: run cmd=pip install -e .[dev];
+}
+
+workflow[name="test"] {
+  trigger: manual;
+  step-1: run cmd=python -m pytest -v;
+}
+
+workflow[name="test-cov"] {
+  trigger: manual;
+  step-1: run cmd=python -m pytest --cov=heal --cov-report=html --cov-report=term;
+}
+
+workflow[name="lint"] {
+  trigger: manual;
+  step-1: run cmd=python -m flake8 heal/;
+  step-2: run cmd=python -m mypy heal/;
+}
+
+workflow[name="format"] {
+  trigger: manual;
+  step-1: run cmd=python -m black heal/;
+  step-2: run cmd=python -m isort heal/;
+}
+
+workflow[name="clean"] {
+  trigger: manual;
+  step-1: run cmd=rm -rf build/;
+  step-2: run cmd=rm -rf dist/;
+  step-3: run cmd=rm -rf *.egg-info/;
+  step-4: run cmd=rm -rf .pytest_cache/;
+  step-5: run cmd=rm -rf .coverage;
+  step-6: run cmd=rm -rf htmlcov/;
+  step-7: run cmd=find . -type d -name __pycache__ -exec rm -rf {} +;
+  step-8: run cmd=find . -type f -name "*.pyc" -delete;
+}
+
+workflow[name="build"] {
+  trigger: manual;
+  step-1: run cmd=python -m build;
+}
+
+workflow[name="publish"] {
+  trigger: manual;
+  step-1: run cmd=python -m twine upload dist/*;
+}
+
+workflow[name="publish-test"] {
+  trigger: manual;
+  step-1: run cmd=python -m twine upload --repository testpypi dist/*;
+}
+
+workflow[name="dev"] {
+  trigger: manual;
+  step-1: run cmd=pip install -e .[dev];
+  step-2: run cmd=pre-commit install;
+}
+
+workflow[name="cli"] {
+  trigger: manual;
+  step-1: run cmd=heal --help;
+}
+
+workflow[name="up"] {
+  trigger: manual;
+  step-1: run cmd=docker compose up -d;
+}
+
+workflow[name="down"] {
+  trigger: manual;
+  step-1: run cmd=docker compose down;
+}
+
+workflow[name="logs"] {
+  trigger: manual;
+  step-1: run cmd=docker compose logs -f;
+}
+
+workflow[name="ps"] {
+  trigger: manual;
+  step-1: run cmd=docker compose ps;
+}
+
+workflow[name="docker-build"] {
+  trigger: manual;
+  step-1: run cmd=docker build -t heal:latest .;
+}
+
+workflow[name="help"] {
+  trigger: manual;
+  step-1: run cmd=echo "Available commands:";
+  step-2: run cmd=echo "  install      Install package";
+  step-3: run cmd=echo "  install-dev  Install package in development mode";
+  step-4: run cmd=echo "  test         Run tests";
+  step-5: run cmd=echo "  lint         Run linting";
+  step-6: run cmd=echo "  format       Format code";
+  step-7: run cmd=echo "  clean        Clean build artifacts";
+  step-8: run cmd=echo "  build        Build package";
+  step-9: run cmd=echo "  publish      Publish to PyPI";
+}
+
+workflow[name="health"] {
+  trigger: manual;
+  step-1: run cmd=docker compose ps;
+  step-2: run cmd=docker compose exec app echo "Health check passed";
+}
+
+workflow[name="import-makefile-hint"] {
+  trigger: manual;
+  step-1: run cmd=echo 'Run: taskfile import Makefile to import existing targets.';
+}
+
+workflow[name="all"] {
+  trigger: manual;
+  step-1: run cmd=taskfile run install;
+  step-2: run cmd=taskfile run lint;
+  step-3: run cmd=taskfile run test;
+}
+
+workflow[name="fmt"] {
+  trigger: manual;
+  step-1: run cmd=ruff format .;
+}
+
+deploy {
+  target: docker-compose;
+  compose_file: docker-compose.yml;
+}
+
+environment[name="local"] {
+  runtime: docker-compose;
+  python_version: >=3.8;
+}
