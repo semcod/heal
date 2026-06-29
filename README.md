@@ -10,13 +10,11 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.31-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.43-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-4.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$4.05-green) ![AI Model](https://img.shields.io/badge/AI%20Model-openrouter%2Fqwen%2Fqwen3-coder-next-lightgrey)
 
-- 🤖 **LLM usage:** $0.4318 (26 commits)
-- 👤 **Human dev:** ~$410 (4.1h @ $100/h, 30min dedup)
+This project uses AI-generated code. Total cost: **$4.0500** with **27** AI commits.
 
-Generated on 2026-04-20 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+Generated on 2026-06-29 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/models/openrouter/qwen/qwen3-coder-next)
 
 ---
 
@@ -379,12 +377,10 @@ Command fails → heal captures output → anonymizes (optional) → LLM analyze
 
 ## License
 
-Apache License 2.0 - see [LICENSE](LICENSE) for details.
-
+Licensed under Apache-2.0.
 ## Author
 
-Created by **Tom Sapletta** - [tom@sapletta.com](mailto:tom@sapletta.com)
-
+Tom Sapletta
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

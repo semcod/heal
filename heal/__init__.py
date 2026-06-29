@@ -4,7 +4,7 @@ Heal - A Python package for healing shell errors with LLM.
 This package provides tools for fixing shell command errors using LLM assistance.
 """
 
-__version__ = "0.1.24"
+__version__ = "0.1.25"
 __author__ = "Your Name"
 __email__ = "your.email@example.com"
 

@@ -15,7 +15,7 @@ def hello() -> str:
     return "Hello from heal package - your LLM-powered shell assistant!"
 
 
-def get_version() -> __version__:
+def get_version() -> str:
     """
     Get the current version of the heal package.
 

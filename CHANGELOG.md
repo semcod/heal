@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [0.1.25] - 2026-06-29
+
+### Docs
+- Update README.md
+
+### Other
+- Update .env.example
+- Update heal/main.py
+
+## [Unreleased]
+
 ### Summary
 
 feat(docs): CLI interface improvements
