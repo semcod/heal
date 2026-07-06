@@ -15,9 +15,14 @@ def test_hello():
 
 def test_get_version():
     """Test get_version function."""
+    from heal import __version__
+
     result = get_version()
     assert isinstance(result, str)
-    assert result == "0.1.24"
+    # Compare against the package's own version source; a hardcoded literal
+    # breaks on every automated release bump.
+    assert result == __version__
+    assert result.count(".") == 2
 
 
 def test_shell_healer_init():
