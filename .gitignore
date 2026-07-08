@@ -263,3 +263,5 @@ tmp/
 *.db
 *.sqlite
 wizard/.venv/
+.github/
+.taskill/
