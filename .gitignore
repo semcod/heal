@@ -265,3 +265,4 @@ tmp/
 wizard/.venv/
 .github/
 .taskill/
+pyqual_report.yaml
