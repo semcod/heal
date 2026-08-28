@@ -5,7 +5,29 @@ Tests for heal.cli module.
 import os
 from unittest.mock import patch
 from click.testing import CliRunner
-from heal.cli import main, last_shell_command, read_stdin
+from heal.cli import call_llm, main, last_shell_command, read_stdin
+
+
+def test_call_llm_sends_openrouter_application_headers():
+    response = type(
+        "Response",
+        (),
+        {"choices": [type("Choice", (), {"message": type("Message", (), {"content": "ok"})()})()]},
+    )()
+    with patch("heal.cli.completion", return_value=response) as mock_completion, patch.dict(
+        os.environ,
+        {
+            "HEAL_PROVIDER": "openrouter",
+            "OPENROUTER_APP_NAME": "heal-test",
+            "OPENROUTER_APP_URL": "https://example.test/heal",
+        },
+        clear=False,
+    ):
+        assert call_llm("model", "key", "prompt") == "ok"
+
+    headers = mock_completion.call_args.kwargs["extra_headers"]
+    assert headers["HTTP-Referer"] == "https://example.test/heal"
+    assert headers["X-OpenRouter-Title"] == "heal-test"
 
 
 def test_main_help():

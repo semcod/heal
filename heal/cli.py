@@ -291,6 +291,12 @@ def call_llm(model, api_key, prompt, raise_on_error=False):
         # For OpenRouter, also pass api_key explicitly
         if provider == "openrouter":
             kwargs["api_key"] = api_key
+            kwargs["extra_headers"] = {
+                "HTTP-Referer": os.getenv(
+                    "OPENROUTER_APP_URL", "https://github.com/semcod/heal"
+                ),
+                "X-OpenRouter-Title": os.getenv("OPENROUTER_APP_NAME", "heal"),
+            }
 
         resp = completion(**kwargs)
         return resp.choices[0].message.content
