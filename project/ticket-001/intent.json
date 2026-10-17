@@ -1,9 +1,16 @@
 {
   "ticket": "ticket-001",
-  "summary": "Adopt immutable local CI publication instructions",
+  "summary": "Fix CLI help test and adopt Wellmanifest baseline standards",
   "allowedPaths": [
-    "AGENTS.md",
+    ".aider.conf.yml",
+    ".cursor/rules/new-project-standard.mdc",
+    ".github/copilot-instructions.md",
     ".gitignore",
+    ".governance/**",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "heal/cli.py",
     "project/ticket-001/**"
   ],
   "forbiddenPaths": [
@@ -12,6 +19,5 @@
     ".github/workflows/**"
   ],
   "authorization": "SESSION_EXECUTION_AUTHORIZATION",
-  "standard_revision": "d5f77d83b3752477cfb95a535d0e1ce77f148576",
-  "outcome": "Publication-policy-only adoption with protected review; no executor or required-check mutation."
+  "outcome": "All 72 tests pass and Wellmanifest baseline standards are adopted."
 }

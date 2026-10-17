@@ -309,6 +309,7 @@ def call_llm(model, api_key, prompt, raise_on_error=False):
 @click.group(invoke_without_command=True)
 @click.pass_context
 def main(ctx):
+    """Heal - LLM-powered shell error fixing."""
     try:
         from .autoupdate import check_for_updates
         check_for_updates("heal")
@@ -318,7 +319,6 @@ def main(ctx):
             check_for_updates("heal")
         except Exception:
             pass
-    """Heal - LLM-powered shell error fixing."""
     if ctx.invoked_subcommand is None:
         ctx.invoke(fix)
 
