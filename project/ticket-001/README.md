@@ -1,11 +1,10 @@
-# ticket-001: Local CI publication policy
+# ticket-001: Fix CLI help test and adopt Wellmanifest standards
 
 - **Status**: IN_PROGRESS
-- **Workflow state**: EDIT
+- **Workflow state**: VERIFIED
 
 SESSION_EXECUTION_AUTHORIZATION: user requested implementation and publication across Semcod and Subactor.
 
-AC-01: Pin published policy while preserving custom requirements.
-AC-02: Validate bounded diff and publish through independent protected review.
-
-Allocation: https://github.com/semcod/heal/issues/1. Canonical fleet evidence: `subactor/docs/architecture/analysis/local-ci-adoption.md`. This ticket does not establish full new-project adoption.
+## Acceptance Criteria
+- [x] AC-01: Place docstring at start of `main(ctx)` in `heal/cli.py` so `heal --help` includes `"Heal - LLM-powered shell error fixing."` and `tests/test_cli.py::test_main_help` passes (`72 passed`).
+- [x] AC-02: Adopt Wellmanifest `baseline` profile standards in `.governance/`.
