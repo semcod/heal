@@ -275,3 +275,5 @@ pyqual_report.yaml
 /.subactor/receipts/
 /.subactor/cache/
 /.subactor/snapshots/
+.koru/
+.planfile/
